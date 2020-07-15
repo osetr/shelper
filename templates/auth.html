@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="sport, trining, exircises">
+    <meta name="author" content="Anton">
+    <title>SHelper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+  </head>
+  <body>
+    <fieldset>
+        <form method="POST">
+            <div><img width="100%" class="background_photo" src="{{ url_for('static', filename='img/background_photo.png') }}" alt="New">
+                <img class="user_photo" src="{{ url_for('static', filename='img/user_photo.png') }}" alt="user">
+                <span class="text_into">ID</span>
+            </div>
+            {{ form.csrf_token }}
+            {{ form.name.label }} {{ form.name(placeholder='myname', value="") }}
+            {{ form.password.label }} {{ form.password(placeholder='myPassword123', value="") }}
+            {{ form.email.label }} {{ form.email(placeholder='my@email.com', value="") }}
+            {{ form.submit() }}
+            <input type="reset" value="Reset"><br>
+            {% for error_key, error_value in errors.items() %}
+            <span style="color:red; font-size:20px">{{ error_value[0] }}</span>
+            {% endfor %}
+        </form>
+    </fieldset>
+  </body>
+</html>
