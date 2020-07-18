@@ -16,13 +16,13 @@
                 <span class="text_into">ID</span>
             </div>
             {{ form.csrf_token }}
-            {{ form.name.label }} {{ form.name(placeholder='myname', value="") }}
-            {{ form.password.label }} {{ form.password(placeholder='myPassword123', value="") }}
-            {{ form.email.label }} {{ form.email(placeholder='my@email.com', value="") }}
+            {{ form.name.label }} {{ form.name(placeholder='myname', value='', autocomplete="off") }}
+            {{ form.password.label }} {{ form.password(placeholder='myPassword123', value='') }}
+            {{ form.email.label }} {{ form.email(placeholder='my@email.com', value='', autocomplete='off') }}
             {{ form.submit() }}
             <input type="reset" value="Reset"><br>
             {% for error_key, error_value in errors.items() %}
-            <span style="color:red; font-size:20px">{{ error_value[0] }}</span>
+            <span style="color:red; font-size:20px">{{ error_value[0] }}</span><br>
             {% endfor %}
         </form>
     </fieldset>
