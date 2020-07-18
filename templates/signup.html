@@ -11,8 +11,8 @@
   <body>
     <fieldset>
         <form method="POST">
-            <div><img width="100%" class="background_photo" src="{{ url_for('static', filename='img/background_photo.png') }}" alt="New">
-                <img class="user_photo" src="{{ url_for('static', filename='img/user_photo.png') }}" alt="user">
+            <div><img width="100%" class="background_photo" src="{{ url_for('static', filename='img/bg_signup.png') }}" alt="New">
+                <img class="user_photo" src="{{ url_for('static', filename='img/user_avatar.png') }}" alt="user">
                 <span class="text_into">ID</span>
             </div>
             {{ form.csrf_token }}

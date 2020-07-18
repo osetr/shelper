@@ -19,7 +19,10 @@
             {{ form.password.label }} {{ form.password(placeholder='password...', value="") }}
             <br>
             {{ form.submit() }}
-            <a href="{{ url_for('auth') }}">Create Account</a>
+            <a href="{{ url_for('auth') }}">Create Account</a><br>
+            {% for error_key, error_value in errors.items() %}
+            <span style="color:red; font-size:20px">{{ error_value[0] }}</span><br>
+            {% endfor %}
           </form>
       </div>
       <div class="premier_line"></div>
