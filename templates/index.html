@@ -12,7 +12,7 @@
   <body>
       <div class="premier_line"></div>
       <div class="premier_center">
-          <img class="premier_img" src="{{ url_for('static', filename='img/bg_index.png') }}" alt="IMG">
+          <img class="premier_img" src="{{ url_for('static', filename='img/bg_index.png') }}" alt="BG_IMG">
           <form class="premier_form", method="POST">
             {{ form.csrf_token }}
             {{ form.name.label }} {{ form.name(placeholder='username...', value="", autocomplete="off") }}

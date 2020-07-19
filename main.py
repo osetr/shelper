@@ -42,4 +42,4 @@ def auth():
 
 @app.route('/home', methods=['GET', 'POST'])
 def main():
-    return render_template('home.html')
+    return render_template('home.html', exercise_list=['Arms','Legs','Back','Chest','Neck','Abs','Other'])

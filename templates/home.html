@@ -1,279 +1,292 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="this is keywords">
-    <meta name="author" content="it's me">
-    <title>Home page</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Bitter|Mansalva|Oswald&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery/jq.js') }}"></script>
-    <script type="text/javascript">
-      var ind1=0, ind2=0, ind3=0;
-      var ins1=0, ins2=0, ins3=0;
-      function ins_up(val)
-      {
-        if (val==1) ins1=1;
-        if (val==2) ins2=1;
-        if (val==3) ins3=1;
-      }
-      function ins_down(val)
-      {
-        if (val==1) ins1=0;
-        if (val==2) ins2=0;
-        if (val==3) ins3=0;
-      }
-      function move(val)
-      {
-        $("#lol"+val).attr("style","padding-left: 2%; position: absolute; margin-top:95%; opacity:0; transition: 0.1s ease;");
-        $("#forma"+val).attr("style","margin-top: 100%; transition: 0.3s ease; z-index: -1;");
-      }
-      function move_back(val)
-      {
-        if (val==1 && ind1==0 && ins1==0)
-          {
-            $("#forma"+val).attr("style","margin-top: 0%; position: absolute; z-index:-1; transition: 0.3s ease;");
-            $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
-          }
-        if (val==2 && ind2==0 && ins2==0)
-          {
-            $("#forma"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
-            $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
-          }
-        if (val==3 && ind3==0 && ins3==0)
-          {
-            $("#forma"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
-            $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
-          }
+<head>
+  <meta charset="utf-8">
+  <meta name="keywords" content="sport, trining, exircises">
+  <meta name="author" content="Anton">
+  <title>Home page</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Bitter|Mansalva|Oswald&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery/jq.js') }}"></script>
+  <script type="text/javascript">
+  var ind1=0, ind2=0, ind3=0;
+  var ins1=0, ins2=0, ins3=0;
+  function ins_up(val)
+  {
+    if (val==1) ins1=1;
+    if (val==2) ins2=1;
+    if (val==3) ins3=1;
+  }
+  function ins_down(val)
+  {
+    if (val==1) ins1=0;
+    if (val==2) ins2=0;
+    if (val==3) ins3=0;
+  }
+  function move(val)
+  {
+    $("#lol"+val).attr("style","padding-left: 2%; position: absolute; margin-top:95%; opacity:0; transition: 0.1s ease;");
+    $("#forma"+val).attr("style","margin-top: 100%; transition: 0.3s ease; z-index: -1;");
+  }
+  function move_back(val)
+  {
+    if (val==1 && ind1==0 && ins1==0)
+    {
+      $("#forma"+val).attr("style","margin-top: 0%; position: absolute; z-index:-1; transition: 0.3s ease;");
+      $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
+    }
+    if (val==2 && ind2==0 && ins2==0)
+    {
+      $("#forma"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
+      $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
+    }
+    if (val==3 && ind3==0 && ins3==0)
+    {
+      $("#forma"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
+      $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
+    }
 
-      }
-      function plus(val)
-      {
-        if (val==1) ind1=1;
-        if (val==2) ind2=1;
-        if (val==3) ind3=1;
-      }
-      function minus(val)
-      {
-        if (val==1) ind1=0;
-        if (val==2) ind2=0;
-        if (val==3) ind3=0;
-      }
+  }
+  function plus(val)
+  {
+    if (val==1) ind1=1;
+    if (val==2) ind2=1;
+    if (val==3) ind3=1;
+  }
+  function minus(val)
+  {
+    if (val==1) ind1=0;
+    if (val==2) ind2=0;
+    if (val==3) ind3=0;
+  }
 
-      function sp_go()
-      {
-          if (ins1==1)
-          {
-          $("#sp_for_1").attr("style","display: block; margin-top:100%;");
-          $("#sp_lol_1").attr("style","margin-top:0%; padding-left:2%;");
-          }
-          if (ins1==0)
-          {
-          $("#sp_for_1").attr("style","display: none;");
-          $("#sp_lol_1").attr("style","margin-top:100%; padding-left:2%;");
-          }
+  function sp_go()
+  {
+    if (ins1==1)
+    {
+      $("#sp_for_1").attr("style","display: block; margin-top:100%;");
+      $("#sp_lol_1").attr("style","margin-top:0%; padding-left:2%;");
+    }
+    if (ins1==0)
+    {
+      $("#sp_for_1").attr("style","display: none;");
+      $("#sp_lol_1").attr("style","margin-top:100%; padding-left:2%;");
+    }
 
-          if (ins2==1)
-          {
-          $("#sp_for_2").attr("style","display: block; margin-top:100%;");
-          $("#sp_lol_2").attr("style","margin-top:0%; padding-left:2%;");
-          }
-          if (ins2==0)
-          {
-          $("#sp_for_2").attr("style","display: none;");
-          $("#sp_lol_2").attr("style","margin-top:100%; padding-left:2%;");
-          }
+    if (ins2==1)
+    {
+      $("#sp_for_2").attr("style","display: block; margin-top:100%;");
+      $("#sp_lol_2").attr("style","margin-top:0%; padding-left:2%;");
+    }
+    if (ins2==0)
+    {
+      $("#sp_for_2").attr("style","display: none;");
+      $("#sp_lol_2").attr("style","margin-top:100%; padding-left:2%;");
+    }
 
-      }
-      var ins_ex=0;
-      var ins_exlist=0;
-      var ex=0;
-      function start_ex()
-      {
-        $(".e_menu").attr("style","display:block;")
-        ex=1;
-      }
-      function ins_ex_up()
-      {
-          ins_ex=1;
-      }
-      function ins_ex_down()
-      {
-          ins_ex=0;
-      }
-      function ins_exlist_up()
-      {
-          ins_exlist=1;
-      }
-      function ins_exlist_down()
-      {
-          ins_exlist=0;
-      }
-      function ex_go()
-      {
-        if (ins_ex==0 && ex==1) close_ex_menu();
-      }
-
-      function close_ex_menu()
-      {
-            $(".e_menu").attr("style","display:none;");
-            ex=0;
-      }
+  }
 
 
-      var ins_help=0;
-      var help=0;
-      function start_help()
-      {
-        $(".help_menu").attr("style","display:block;")
-        help=1;
-      }
-      function ins_help_up()
-      {
-          ins_help=1;
-      }
-      function ins_help_down()
-      {
-          ins_help=0;
-      }
-      function help_go()
-      {
-        if (ins_help==0 && help==1)
-          {
-            $(".help_menu").attr("style","display:none;");
-            help=0;
-          }
-      }
 
-      var ins_about=0;
-      var about=0;
-      function start_about()
-      {
-        $(".about_menu").attr("style","display:block;");
-        about=1;
-      }
-      function ins_about_up()
-      {
-          ins_about=1;
-      }
-      function ins_about_down()
-      {
-          ins_about=0;
-      }
-      function about_go()
-      {
-        if (ins_about==0 && about==1)
-          {
-            $(".about_menu").attr("style","display:none;");
-            about=0;
-          }
-      }
-      var date_flag=0;
-      function date_go()
-      {
-        $d="<?php echo $date?>";
-        if (date_flag==0)
-        {
-          $("#date").attr("value",$d);
-          date_flag=1;
-        } else
-        {
-          date_flag=0;
-          $("#date").attr("value","");
-        }
-      }
-      var fback=0;
-      function back_on()
-      {
-        fback=1;
-      }
-      function back_out()
-      {
-        fback=0;
-      }
-      function check_and_kick()
-      {
-        if (ins_exlist==0) close_ex();
-      }
-      function back_go()
-      {
-        if (fback==0) $("#back").attr("style","display:block;");
-      }
-      function back_back()
-      {
-        $("#back").attr("style","display:none;");
-      }
-        var other=eval('<?php echo $ar1;?>');
-        var legs=eval('<?php echo $ar2;?>');
-        var back=eval('<?php echo $ar3;?>');
-        var chest=eval('<?php echo $ar4;?>');
-        var neck=eval('<?php echo $ar5;?>');
-        var abs=eval('<?php echo $ar6;?>');
-        var arms=eval('<?php echo $ar7;?>');
-      function open_ex(val)
-      {
-        $("#block"+val).attr("style","display:block;");
-      }
-      function close_ex()
-      {
-        for (var val=1; val<=7; val++) $("#block"+val).attr("style","display:none;");
-      }
-      var i=1;
-      var sett=0;
-      var cur="";
-      var saved_id=1;
-      var inp_id=1;
-      var arr_exe=new Array();
-      var arr_wei=new Array();
-      var arr_exi=new Array();
-      function cl()
-      {
-        document.getElementById('weight').value="";
-      }
-      function del(val)
-      {
-        $("#saved"+val).attr("style","display:none;");
-        $("#inpex"+val).attr("value","");
-        $("#inpwe"+val).attr("value","");
-        arr_exi[val]=0;
-      }
-      function output()
-      {
-        var s="<div onclick='del(" + saved_id + ")' id='saved" + saved_id + "' style='height:auto;'>" + document.getElementById('exercise' + sett).innerHTML + "<pre>   </pre>" + document.getElementById('weight').value + "</div>";
-        arr_exe[saved_id]=document.getElementById('exname_' + sett).innerHTML;
-        arr_wei[saved_id]=document.getElementById('weight').value;
-        $("#inpex"+inp_id).attr("value",arr_exe[inp_id]);
-        $("#inpwe"+inp_id).attr("value",arr_wei[inp_id]);
-        inp_id++;
-      ///////////////////////////////////////////////////////////////////////////
-        saved_id++;
-        document.getElementById('output').innerHTML+=s;
-      }
-      function outtt()
-      {
-        for (var i=1; i<saved_id; i++)
-        {
-          if (arr_exi[i]==1) console.log(arr_exe[i]);
-        }
-      }
-      function set(val)
-      {
-        sett=val;
-        if (cur=="")
-          {
-            cur="<input id='ept' type='button' style='color: #fff; width: auto; position: absolute; background-color: #303030;border-color: #000;top: 46%; right: 40%;' value='" + document.getElementById('exname_' + sett).innerHTML + "'>";
-            document.getElementById('ok').innerHTML+=cur;
-          }
-          else
-        $("#ept").attr("value",document.getElementById('exname_' + sett).innerHTML);
-      }
 
-      function isValidDate(dateString)
-{
+
+  var cursor_on_exercise_menu=0;
+  var exercise_list_stage=0;
+  var exercise_menu_stage=0;
+  function start_ex()
+  {
+    $(".exercise_menu").attr("style","display:block;")
+    exercise_menu_stage=1;
+  }
+  function cursor_on_exercise_menu_up()
+  {
+    cursor_on_exercise_menu=1;
+  }
+  function cursor_on_exercise_menu_down()
+  {
+    cursor_on_exercise_menu=0;
+  }
+  function cursor_on_exercise_list_up()
+  {
+    exercise_list_stage=1;
+  }
+  function cursor_on_exercise_list_down()
+  {
+    exercise_list_stage=0;
+  }
+  function ex_go()
+  {
+    if (cursor_on_exercise_menu==0 && exercise_menu_stage==1) close_exercise_menu();
+  }
+
+  function close_exercise_menu()
+  {
+    $(".exercise_menu").attr("style","display:none;");
+    exercise_menu_stage=0;
+  }
+
+
+
+
+  var cursor_on_help_menu=0;
+  var help_menu_stage=0;
+  function start_help()
+  {
+    $(".help_menu").attr("style","display:block;")
+    help_menu_stage=1;
+  }
+  function cursor_on_help_menu_up()
+  {
+    cursor_on_help_menu=1;
+  }
+  function cursor_on_help_menu_down()
+  {
+    cursor_on_help_menu=0;
+  }
+  function help_go()
+  {
+    if (cursor_on_help_menu==0 && help_menu_stage==1)
+    {
+      $(".help_menu").attr("style","display:none;");
+      help_menu_stage=0;
+    }
+  }
+
+
+
+  var cursor_on_about_menu=0;
+  var about_menu_stage=0;
+  function start_about()
+  {
+    $(".about_menu").attr("style","display:block;");
+    about_menu_stage=1;
+  }
+  function cursor_on_about_menu_up()
+  {
+    cursor_on_about_menu=1;
+  }
+  function cursor_on_about_menu_down()
+  {
+    cursor_on_about_menu=0;
+  }
+  function about_go()
+  {
+    if (cursor_on_about_menu==0 && about_menu_stage==1)
+    {
+      $(".about_menu").attr("style","display:none;");
+      about_menu_stage=0;
+    }
+  }
+
+
+
+
+  var date_flag=0;
+  function date_go()
+  {
+    $d="<?php echo $date?>";
+    if (date_flag==0)
+    {
+      $("#date").attr("value",$d);
+      date_flag=1;
+    } else
+    {
+      date_flag=0;
+      $("#date").attr("value","");
+    }
+  }
+  var fback=0;
+  function light_up_cross()
+  {
+    fback=1;
+  }
+  function light_out_cross()
+  {
+    fback=0;
+  }
+  function check_and_kick()
+  {
+    if (exercise_list_stage==0) close_all_exercises_in_exlist();
+  }
+  function open_feedback_field()
+  {
+    if (fback==0) $("#feedback_field").attr("style","display:block;");
+  }
+  function close_feedback_field()
+  {
+    $("#feedback_field").attr("style","display:none;");
+  }
+  var other=eval('<?php echo $ar1;?>');
+  var legs=eval('<?php echo $ar2;?>');
+  var back=eval('<?php echo $ar3;?>');
+  var chest=eval('<?php echo $ar4;?>');
+  var neck=eval('<?php echo $ar5;?>');
+  var abs=eval('<?php echo $ar6;?>');
+  var arms=eval('<?php echo $ar7;?>');
+  function open_special_exercise_with_order(val)
+  {
+    $("#block"+val).attr("style","display:block;");
+  }
+  function close_all_exercises_in_exlist()
+  {
+    for (var val=1; val<=7; val++) $("#block"+val).attr("style","display:none;");
+  }
+  var i=1;
+  var sett=0;
+  var cur="";
+  var saved_id=1;
+  var inp_id=1;
+  var arr_exe=new Array();
+  var arr_wei=new Array();
+  var arr_exi=new Array();
+  function clean_weight_field()
+  {
+    document.getElementById('weight').value="";
+  }
+  function del(val)
+  {
+    $("#saved"+val).attr("style","display:none;");
+    $("#inpex"+val).attr("value","");
+    $("#inpwe"+val).attr("value","");
+    arr_exi[val]=0;
+  }
+  function fix_exercise_to_save()
+  {
+    var s="<div onclick='del(" + saved_id + ")' id='saved" + saved_id + "' style='height:auto;'>" + document.getElementById('exercise' + sett).innerHTML + "<pre>   </pre>" + document.getElementById('weight').value + "</div>";
+    arr_exe[saved_id]=document.getElementById('exname_' + sett).innerHTML;
+    arr_wei[saved_id]=document.getElementById('weight').value;
+    $("#inpex"+inp_id).attr("value",arr_exe[inp_id]);
+    $("#inpwe"+inp_id).attr("value",arr_wei[inp_id]);
+    inp_id++;
+    ///////////////////////////////////////////////////////////////////////////
+    saved_id++;
+    document.getElementById('fixing_field').innerHTML+=s;
+  }
+  function outtt()
+  {
+    for (var i=1; i<saved_id; i++)
+    {
+      if (arr_exi[i]==1) console.log(arr_exe[i]);
+    }
+  }
+  function set(val)
+  {
+    sett=val;
+    if (cur=="")
+    {
+      cur="<input id='ept' type='button' style='color: #fff; width: auto; position: absolute; background-color: #303030;border-color: #000;top: 46%; right: 40%;' value='" + document.getElementById('exname_' + sett).innerHTML + "'>";
+      document.getElementById('external_exercise_block').innerHTML+=cur;
+    }
+    else
+    $("#ept").attr("value",document.getElementById('exname_' + sett).innerHTML);
+  }
+
+  function isValidDate(dateString)
+  {
     // First check for the pattern
     if(!/^\d{4}\-\d{2}\-\d{2}$/.test(dateString))
-        return false;
+    return false;
 
     // Parse the date parts to integers
     var parts = dateString.split("-");
@@ -283,262 +296,157 @@
 
     // Check the ranges of month and year
     if(year < 1000 || year > 3000 || month == 0 || month > 12)
-        return false;
+    return false;
 
     var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
     // Adjust for leap years
     if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
-        monthLength[1] = 29;
+    monthLength[1] = 29;
 
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
-};
-      function stop()
+  };
+  function stop()
+  {
+    if (!isValidDate(document.getElementById('date').value))
+    {
+      $("#date").attr("style","border-color: red; width: 50%;");
+      event.preventDefault();
+    } else
+    {
+      var user_id="<?php echo $_SESSION[id] ?>";
+      console.log(user_id);
+      var com=document.getElementById('write_down_comment').value;
+      var dat=document.getElementById('date').value;
+      var wei=document.getElementById('write_down_weight').value;
+      if (com=="") com=" ";
+      if (wei=="") wei=-1;
+      Show1(user_id,com,dat,wei);
+
+      for (var p=1; p<arr_exe.length; p++)
       {
-          if (!isValidDate(document.getElementById('date').value))
-          {
-            $("#date").attr("style","border-color: red; width: 50%;");
-            event.preventDefault();
-          } else
-          {
-            var user_id="<?php echo $_SESSION[id] ?>";
-            console.log(user_id);
-            var com=document.getElementById('write_down_comment').value;
-            var dat=document.getElementById('date').value;
-            var wei=document.getElementById('write_down_weight').value;
-            if (com=="") com=" ";
-            if (wei=="") wei=-1;
-            Show1(user_id,com,dat,wei);
-
-            for (var p=1; p<arr_exe.length; p++)
-            {
-              Show2(user_id,arr_exe[p],arr_wei[p]);
-            }
-            event.preventDefault();
-          }
+        Show2(user_id,arr_exe[p],arr_wei[p]);
       }
-      async function Show1(value1,value2,value3,value4){
-      try {
-        const url = 'http://localhost:4000/show1/';
-        const response = fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, cors, *same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json',
-                //'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrer: 'no-referrer', // no-referrer, *client
-            body: JSON.stringify({val1:value1,val2:value2,val3:value3,val4:value4}),
-            //body: {main: this.state.mainObj}, // тип данных в body должен соответвовать значению заголовка "Content-Type"
-        }).then(res => console.log(res));
-      } catch (error) {
-        console.error('Ошибка:', error);
-      }
-
-      }
-      async function Show2(value1,value2,value3){
-      try {
-        const url = 'http://localhost:4000/show2/';
-        const response = fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, cors, *same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json',
-                //'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrer: 'no-referrer', // no-referrer, *client
-            body: JSON.stringify({val1:value1,val2:value2,val3:value3}),
-            //body: {main: this.state.mainObj}, // тип данных в body должен соответвовать значению заголовка "Content-Type"
-        }).then(res => console.log(res));
-        console.log(response);
-
-      } catch (error) {
-        console.error('Ошибка:', error);
-      }
-      }
-    </script>
-
-  </head>
-<body onkeydown="if(event.keyCode==9) return false;" onclick="sp_go(),ex_go(), help_go(), about_go(),check_and_kick()">
-<!--<input type="button" onclick="outtt()" name="">-->
+      event.preventDefault();
+    }
+  }
+  </script>
+</head>
 
 
-<div class="about_menu">
+
+<body onclick="sp_go(),ex_go(), help_go(), about_go(),check_and_kick()">
+  <div class="about_menu">
     <div style="position: fixed; height: 100%; width: 100%; margin: 0px; background-color: #000; opacity: 0.5; z-index: 99;"></div>
-    <div onmouseover="ins_about_up()" onmouseout="ins_about_down()" style="position: fixed; height: 30%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 15%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
-       <div class="ex" style="height: 90%;">
-      <div><span>
-We are happy!(
-</span></div>
-      </div>
-    </div>
-</div>
-
-
-
-
-<div class="help_menu">
-    <div style="position: fixed; height: 100%; width: 100%; margin: 0px; background-color: #000; opacity: 0.5; z-index: 99;"></div>
-    <div onmouseover="ins_help_up()" onmouseout="ins_help_down()" style="position: fixed; height: 30%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 15%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
-       <div class="ex" style="height: 90%;">
-      <div><span>
-Enjoy using=)
-</span></div>
-      </div>
-    </div>
-</div>
-
-
-
-
-<div class="e_menu">
-    <div style="position: fixed; height: 100%; width: 100%; margin: 0px; background-color: #000; opacity: 0.5; z-index: 99;"></div>
-    <div   id="ok" onmouseover="ins_ex_up()" onmouseout="ins_ex_down()" style="position: fixed; height: 80%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
-      <center><span style="color: #fff; font-size: 3vh;">Exercises</span></center>
-      <div class="ex" onmouseover="ins_exlist_up()" onmouseout="ins_exlist_down()">
-      <div onclick="close_ex(),open_ex(1)"><span>Arms</span></div>
-      <hr>
-            <block id="block1" style="display: none; position: absolute;">
-              <hr  style='border-color:red;'>
-            <script type="text/javascript">
-              arms.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;height:19%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
-            </script>
-            </block>
-      <hr>
-      <div onclick="close_ex(),open_ex(2)"><span>Legs</span></div>
-      <hr>
-            <block id="block2" style="display: none;">
-              <hr style='border-color:red;'>
-            <script type="text/javascript">
-              legs.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
-            </script>
-            </block>
-      <hr>
-      <div onclick="close_ex(),open_ex(3)"><span>Back</span></div>
-      <hr>
-            <block id="block3" style="display: none;">
-              <hr style='border-color:red;'>
-            <script type="text/javascript">
-              back.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
-            </script>
-            </block>
-      <hr>
-      <div onclick="close_ex(),open_ex(4)"><span>Chest</span></div>
-      <hr>
-            <block id="block4" style="display: none;">
-              <hr style='border-color:red;'>
-            <script type="text/javascript">
-              chest.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
-            </script>
-            </block>
-      <hr>
-      <div onclick="close_ex(),open_ex(5)"><span>Neck</span></div>
-      <hr>
-            <block id="block5" style="display: none;">
-              <hr style='border-color:red;'>
-            <script type="text/javascript">
-              neck.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
-            </script>
-            </block>
-      <hr>
-      <div onclick="close_ex(),open_ex(6)"><span>Abs</span></div>
-      <hr>
-            <block id="block6" style="display: none;">
-              <hr style='border-color:red;'>
-            <script type="text/javascript">
-              abs.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
-            </script>
-            </block>
-      <hr>
-      <div onclick="close_ex(),open_ex(7)"><span>Other</span></div>
-      <hr>
-            <block id="block7" style="display: none;">
-              <hr style='border-color:red;'>
-            <script type="text/javascript">
-              other.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
-            </script>
-            </block>
-      </div>
-      <input onfocus="cl()" id="weight" type="number" name="" placeholder="Weight">
-      <input onclick="output()" type="button" name="" value="+Add">
-      <input onclick="close_ex_menu()" type="button" name="" value="Close" style="top: 93%;">
-      <input type="button" name="" value="Click exercise for deleting" id="ex_del">
-     <hr style=" top: 52.5%; left: 5%; position: absolute; color: #f0f0f0; width: 90%; border-width: 0.5px;">
-        <div class="ex" id="output" style="position: absolute; top: 55%; height: 38%; background-color: #303030; opacity: 0.2; width: 90%; left: 5%; border-radius: 5px; color: #fff; overflow-y: scroll;">
-
+    <div onmouseover="cursor_on_about_menu_up()" onmouseout="cursor_on_about_menu_down()" style="position: fixed; height: 30%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 15%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
+      <div class="internal_block_for_dark_background" style="height: 90%;">
+        <div>
+          <span>
+            We are happy!(
+          </span>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
 
 
+  <div class="help_menu">
+    <div style="position: fixed; height: 100%; width: 100%; margin: 0px; background-color: #000; opacity: 0.5; z-index: 99;"></div>
+    <div onmouseover="cursor_on_help_menu_up()" onmouseout="cursor_on_help_menu_down()" style="position: fixed; height: 30%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 15%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
+      <div class="internal_block_for_dark_background" style="height: 90%;">
+        <div><span>
+          Enjoy using=)
+        </span></div>
+      </div>
+    </div>
+  </div>
 
 
 
+  <div class="exercise_menu">
+    <div style="position: fixed; height: 100%; width: 100%; margin: 0px; background-color: #000; opacity: 0.5; z-index: 99;"></div>
+    <div id="external_exercise_block" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" style="position: fixed; height: 80%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
+      <center><span style="color: #fff; font-size: 3vh;">Exercises</span></center>
+      <div class="internal_block_for_dark_background" onmouseover="cursor_on_exercise_list_up()" onmouseout="cursor_on_exercise_list_down()">
+        {% for ex in exercise_list %}
+        <div onclick="close_all_exercises_in_exlist(),open_special_exercise_with_order({{(exercise_list.index(ex) + 1) | string() }})"><span>{{ ex }}</span></div>
+        <hr>
+        <block id={{ "block" + (exercise_list.index(ex) + 1) | string() }} style="display: none; position: absolute;">
+          <hr  style='border-color:red;'>
+          <script type="text/javascript">
+          arms.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
+          </script>
+        </block>
+        <hr>
+        {% endfor %}
+      </div>
+      <input onfocus="clean_weight_field()" id="weight" type="number" name="" placeholder="Weight">
+      <input onclick="fix_exercise_to_save()" type="button" name="" value="+Add">
+      <input onclick="close_exercise_menu()" type="button" name="" value="Close" style="top: 93%;">
+      <input type="button" name="" value="Click exercise for deleting" id="exercise_del_button">
+      <hr style=" top: 52.5%; left: 5%; position: absolute; color: #f0f0f0; width: 90%; border-width: 0.5px;">
+      <div class="internal_block_for_dark_background" id="fixing_field" style="position: absolute; top: 55%; height: 38%; background-color: #303030; opacity: 0.2; width: 90%; left: 5%; border-radius: 5px; color: #fff; overflow-y: scroll;">
+      </div>
+    </div>
+  </div>
 
-    <div class="wrap">
-     <header>
-        <img class="im" src="{{ url_for('static', filename='img/shelper_title_icon.png') }}">
-        <a class="title" href="main.html">
+
+
+  <div class="whole_visible_part">
+      <header>
+        <img class="shelper_title_icon" src="{{ url_for('static', filename='img/shelper_title_icon.png') }}">
+        <a class="shelper_link" href="main.html">
           SHelper
         </a>
-        <a onclick="back_go()" style="cursor: pointer;">
+        <a onclick="open_feedback_field()" style="cursor: pointer;">
           Feedback
-          <div id="back" style="display: none;">
-          <div style="padding: 3%; position: absolute; height: 130%; width: 15%; background-color: #000; opacity: 0.6; top: 105%; z-index: 100000; border-radius: 5px;">
-            <form method="POST" action="main.php">
-            <textarea name="comment"></textarea>
-            <img  onmouseover="back_on()" onmouseout="back_out()" onclick="back_back()" src="{{ url_for('static', filename='img/cross.png') }}" id="krest">
-            <input  type="submit" value="Send" name="send_back" style="cursor: pointer; position: absolute; top: 79%; font-size: 1vw; right: 1%; background-color: #000; color: #f0f0f0; border-width: 1px;"></form>
+          <div id="feedback_field" style="display: none;">
+            <div style="padding: 3%; position: absolute; height: 130%; width: 15%; background-color: #000; opacity: 0.6; top: 105%; z-index: 100000; border-radius: 5px;">
+              <form method="POST" action="main.php">
+                <textarea name="comment"></textarea>
+                <img  onmouseover="light_up_cross()" onmouseout="light_out_cross()" onclick="close_feedback_field()" src="{{ url_for('static', filename='img/cross.png') }}" id="cross">
+                <input  type="submit" value="Send" name="send_back" style="cursor: pointer; position: absolute; top: 79%; font-size: 1vw; right: 1%; background-color: #000; color: #f0f0f0; border-width: 1px;"></form>
+            </div>
           </div>
-        </div>
         </a>
-        <a class="au" href="auth.php">
+        <a class="regist_link" href="auth.php">
           Regist
         </a>
-        <a href="index.php" class="exit">
+        <a href="index.php" class="exit_link">
           Exit
         </a>
-     </header><br>
-     <div class="menu">
-     <center>
-      <span>Sections</span>
-       <hr>
-     <div class="sections">
-       <a href=""><span style="color:#000;">Actions</span></a>
-       <a href="look.php"><span>Look</span></a>
-       <a onclick="start_about(),back_back()" onmouseover="ins_about_up()" onmouseout="ins_about_down()"><span  style="white-space: nowrap; cursor: pointer; ">About us</span></a>
-       <a onclick="start_help(),back_back()" onmouseover="ins_help_up()" onmouseout="ins_help_down()"><span style="cursor: pointer; ">Help</span></a>
-      </div>
-     </div>
-     <br>
-     </center>
+      </header><br>
+
+      <div class="menu">
+        <center>
+          <span>Sections</span>
+          <hr>
+          <div class="sections">
+            <a href=""><span style="color:#000;">Actions</span></a>
+            <a href="look.php"><span>Look</span></a>
+            <a onclick="start_about(),close_feedback_field()" onmouseover="cursor_on_about_menu_up()" onmouseout="cursor_on_about_menu_down()"><span  style="white-space: nowrap; cursor: pointer; ">About us</span></a>
+            <a onclick="start_help(),close_feedback_field()" onmouseover="cursor_on_help_menu_up()" onmouseout="cursor_on_help_menu_down()"><span style="cursor: pointer; ">Help</span></a>
+          </div>
+        </center>
+      </div><br>
 
 
-
-     <div class="spe">
-       <div class="actions" onmouseover="move(1),ins_up(1)" onmouseout="ins_down(1),move_back(1)">
+      <div class="spe">
+        <div class="actions" onmouseover="move(1),ins_up(1)" onmouseout="ins_down(1),move_back(1)">
           <img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/first_action_image.png') }}">
           <p id="lol1" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Training</p>
           <form  id="forma1" style="position: absolute; z-index: -1;" action="main.php" method="POST">
             <input autocomplete="off" style="width: 50%;" value="" type="text" name="write_down_comment" id="write_down_comment"  onfocus="plus(1)" onblur="minus(1),move_back(1)"><span style="">Write down comment</span><br>
             <input autocomplete="off" style="width: 50%;" value="" type="" id="date" name="write_down_date" onfocus="plus(1)" value="" placeholder="yyyy-mm-dd" onblur="minus(1),move_back(1)"><input onclick="date_go()" type="checkbox"><span style=""> Date</span><br>
             <input autocomplete="off" style="width: 50%;" value="" type="number" min="0" name="write_down_weight" id="write_down_weight" onfocus="plus(1)" onblur="minus(1),move_back(1)"><span style="">Weight</span><br>
-            <img onclick="back_back(),start_ex()" onmouseover="ins_ex_up()" onmouseout="ins_ex_down()" src="{{ url_for('static', filename='img/plus.png') }}" style="width: 10%; margin-top: 2%; margin-left: 2%; transition: 0.1s ease;" class="easy_anim">
+            <img onclick="close_feedback_field(),start_ex()" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" src="{{ url_for('static', filename='img/plus.png') }}" style="width: 10%; margin-top: 2%; margin-left: 2%; transition: 0.1s ease;" class="easy_anim">
             <input onclick="stop()" type="submit" value="Save" name="write_down_all" style="float:right;">
           </form>
-       </div>
+        </div>
 
-
-
-       <div class="actions" onmouseover="move(2),ins_up(2)" onmouseout="ins_down(2),move_back(2)">
+        <div class="actions" onmouseover="move(2),ins_up(2)" onmouseout="ins_down(2),move_back(2)">
           <img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/second_action_image.png') }}">
           <p id="lol2" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Exercise <span style="color: red;"><?=$mistake?></span></p>
 
@@ -558,36 +466,34 @@ Enjoy using=)
             <br>
             <input type="submit" value="Save" name="send_ex">
           </form>
-       </div>
+        </div>
 
-
-
-       <div class="actions" onmouseover="move(3),ins_up(3)" onmouseout="ins_down(3),move_back(3)">
+        <div class="actions" onmouseover="move(3),ins_up(3)" onmouseout="ins_down(3),move_back(3)">
           <a href="lol.html"><img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/third_action_image.png') }}"></a>
           <p style="padding-left: 2%; margin-top: 100%;">Stopwatch</p>
-       </div>
+        </div>
+      </div>
+    </div>
 
-     </div>
 
 
 
-   </div>
 
-     <footer>
-        <span class="left" style="margin-top: 0.6%; margin-left:0.4%;">
-         Almost all rights reserved &copy 2019
-        </span>
-        <div  style="height: 100%;" class="wcid">
+    <footer>
+      <span class="left" style="margin-top: 0.6%; margin-left:0.4%;">
+        Almost all rights reserved &copy 2019
+      </span>
+      <div  style="height: 100%;" class="wcid">
         <a href=""><img src="{{ url_for('static', filename='img/facebook.png') }}" class="right" style="margin:0.3%; height: 80%; margin-right: 1%;"></a>
         <a href=""><img src="{{ url_for('static', filename='img/telegram.png') }}" class="right"  style="margin:0.3%; height: 80%;"></a>
         <a href=""><img src="{{ url_for('static', filename='img/instagram.png') }}" class="right"  style="margin:0.3%; height: 80%;"></a>
         <a href=""><img src="{{ url_for('static', filename='img/vkontakte.png') }}" class="right"  style="margin:0.3%; height: 80%;"></a>
         <span class="special">
-         Social networks
+          Social networks
         </span>
-        </div>
+      </div>
 
 
-     </footer>
+    </footer>
   </body>
-</html>
+  </html>
