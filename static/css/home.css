@@ -126,23 +126,23 @@ footer:hover{
 }
 
 
-.right{
+.footer_right{
 	float:right;
 }
 
-.left{
+.footer_left{
 	float:left;
 }
 
 
-.menu hr{
+.main_menu hr{
 	height: 0px;
 	width: 50%;
 	box-shadow: 2px 2px 5px #000;
 	border: 1px solid #474747;
 }
 
-.menu center{
+.main_menu center{
 	color:red;
 	font-size: 3vh;
 }
@@ -295,7 +295,7 @@ input[type="submit"]{
   font-size: 1vw;
 }
 
-.spe
+.actions_block
 {
 	display: flex;
 	flex-direction: row;
@@ -304,13 +304,6 @@ input[type="submit"]{
 	center;
 	align-items: flex-start;
 }
-
-
-.nice
-{
-	display: none;
-}
-
 
 
 .internal_block_for_dark_background
@@ -636,7 +629,7 @@ textarea:focus
 	color:#ffcc00;
 }
 
-.menu center{
+.main_menu center{
 	color:red;
 	font-size: 5vh;
 }
@@ -692,7 +685,7 @@ textarea:focus
 	opacity: 0.3;
 }
 
-.wcid
+.soc_networks
 {
 	display: none;
 }

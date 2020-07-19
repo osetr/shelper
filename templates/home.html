@@ -10,79 +10,79 @@
   <link href="https://fonts.googleapis.com/css?family=Bitter|Mansalva|Oswald&display=swap" rel="stylesheet">
   <script type="text/javascript" src="{{ url_for('static', filename='jquery/jq.js') }}"></script>
   <script type="text/javascript">
-  var ind1=0, ind2=0, ind3=0;
-  var ins1=0, ins2=0, ins3=0;
-  function ins_up(val)
+  var focus_ind_1=0, focus_ind_2=0, focus_ind_3=0;
+  var activity_of_action_1=0, activity_of_action_2=0, activity_of_action_3=0;
+  function note_action_as_active(val)
   {
-    if (val==1) ins1=1;
-    if (val==2) ins2=1;
-    if (val==3) ins3=1;
+    if (val==1) activity_of_action_1=1;
+    if (val==2) activity_of_action_2=1;
+    if (val==3) activity_of_action_3=1;
   }
-  function ins_down(val)
+  function note_action_as_non_active(val)
   {
-    if (val==1) ins1=0;
-    if (val==2) ins2=0;
-    if (val==3) ins3=0;
+    if (val==1) activity_of_action_1=0;
+    if (val==2) activity_of_action_2=0;
+    if (val==3) activity_of_action_3=0;
   }
-  function move(val)
+  function move_action(val)
   {
-    $("#lol"+val).attr("style","padding-left: 2%; position: absolute; margin-top:95%; opacity:0; transition: 0.1s ease;");
-    $("#forma"+val).attr("style","margin-top: 100%; transition: 0.3s ease; z-index: -1;");
+    $("#caption"+val).attr("style","padding-left: 2%; position: absolute; margin-top:95%; opacity:0; transition: 0.1s ease;");
+    $("#form_action_"+val).attr("style","margin-top: 100%; transition: 0.3s ease; z-index: -1;");
   }
-  function move_back(val)
+  function move_action_back(val)
   {
-    if (val==1 && ind1==0 && ins1==0)
+    if (val==1 && focus_ind_1==0 && activity_of_action_1==0)
     {
-      $("#forma"+val).attr("style","margin-top: 0%; position: absolute; z-index:-1; transition: 0.3s ease;");
-      $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
+      $("#form_action_"+val).attr("style","margin-top: 0%; position: absolute; z-index:-1; transition: 0.3s ease;");
+      $("#caption"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
     }
-    if (val==2 && ind2==0 && ins2==0)
+    if (val==2 && focus_ind_2==0 && activity_of_action_2==0)
     {
-      $("#forma"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
-      $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
+      $("#form_action_"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
+      $("#caption"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
     }
-    if (val==3 && ind3==0 && ins3==0)
+    if (val==3 && focus_ind_3==0 && activity_of_action_3==0)
     {
-      $("#forma"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
-      $("#lol"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
+      $("#form_action_"+val).attr("style","margin-top: 0%; transition: 0.3s ease;");
+      $("#caption"+val).attr("style","padding-left: 2%; position:absolute; margin-top:100%; color: #000; opacity:1; transition: 0.4s cubic-bezier(.26, .76, .30, .80);");
     }
 
   }
-  function plus(val)
+  function focus_on(val)
   {
-    if (val==1) ind1=1;
-    if (val==2) ind2=1;
-    if (val==3) ind3=1;
+    if (val==1) focus_ind_1=1;
+    if (val==2) focus_ind_2=1;
+    if (val==3) focus_ind_3=1;
   }
-  function minus(val)
+  function focus_off(val)
   {
-    if (val==1) ind1=0;
-    if (val==2) ind2=0;
-    if (val==3) ind3=0;
+    if (val==1) focus_ind_1=0;
+    if (val==2) focus_ind_2=0;
+    if (val==3) focus_ind_3=0;
   }
 
   function sp_go()
   {
-    if (ins1==1)
+    if (activity_of_action_1==1)
     {
       $("#sp_for_1").attr("style","display: block; margin-top:100%;");
-      $("#sp_lol_1").attr("style","margin-top:0%; padding-left:2%;");
+      $("#sp_caption_1").attr("style","margin-top:0%; padding-left:2%;");
     }
-    if (ins1==0)
+    if (activity_of_action_1==0)
     {
       $("#sp_for_1").attr("style","display: none;");
-      $("#sp_lol_1").attr("style","margin-top:100%; padding-left:2%;");
+      $("#sp_caption_1").attr("style","margin-top:100%; padding-left:2%;");
     }
 
-    if (ins2==1)
+    if (activity_of_action_2==1)
     {
       $("#sp_for_2").attr("style","display: block; margin-top:100%;");
-      $("#sp_lol_2").attr("style","margin-top:0%; padding-left:2%;");
+      $("#sp_caption_2").attr("style","margin-top:0%; padding-left:2%;");
     }
-    if (ins2==0)
+    if (activity_of_action_2==0)
     {
       $("#sp_for_2").attr("style","display: none;");
-      $("#sp_lol_2").attr("style","margin-top:100%; padding-left:2%;");
+      $("#sp_caption_2").attr("style","margin-top:100%; padding-left:2%;");
     }
 
   }
@@ -307,7 +307,7 @@
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
   };
-  function stop()
+  function stop_time()
   {
     if (!isValidDate(document.getElementById('date').value))
     {
@@ -419,7 +419,8 @@
         </a>
       </header><br>
 
-      <div class="menu">
+
+      <div class="main_menu">
         <center>
           <span>Sections</span>
           <hr>
@@ -433,26 +434,25 @@
       </div><br>
 
 
-      <div class="spe">
-        <div class="actions" onmouseover="move(1),ins_up(1)" onmouseout="ins_down(1),move_back(1)">
+      <div class="actions_block">
+        <div class="actions" onmouseover="move_action(1),note_action_as_active(1)" onmouseout="note_action_as_non_active(1),move_action_back(1)">
           <img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/first_action_image.png') }}">
-          <p id="lol1" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Training</p>
-          <form  id="forma1" style="position: absolute; z-index: -1;" action="main.php" method="POST">
-            <input autocomplete="off" style="width: 50%;" value="" type="text" name="write_down_comment" id="write_down_comment"  onfocus="plus(1)" onblur="minus(1),move_back(1)"><span style="">Write down comment</span><br>
-            <input autocomplete="off" style="width: 50%;" value="" type="" id="date" name="write_down_date" onfocus="plus(1)" value="" placeholder="yyyy-mm-dd" onblur="minus(1),move_back(1)"><input onclick="date_go()" type="checkbox"><span style=""> Date</span><br>
-            <input autocomplete="off" style="width: 50%;" value="" type="number" min="0" name="write_down_weight" id="write_down_weight" onfocus="plus(1)" onblur="minus(1),move_back(1)"><span style="">Weight</span><br>
+          <p id="caption1" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Training</p>
+          <form  id="form_action_1" style="position: absolute; z-index: -1;" action="main.php" method="POST">
+            <input autocomplete="off" style="width: 50%;" value="" type="text" name="write_down_comment" id="write_down_comment"  onfocus="focus_on(1)" onblur="focus_off(1),move_action_back(1)"><span>Write down comment</span><br>
+            <input autocomplete="off" style="width: 50%;" value="" type="" id="date" name="write_down_date" onfocus="focus_on(1)" value="" placeholder="yyyy-mm-dd" onblur="focus_off(1),move_action_back(1)"><input onclick="date_go()" type="checkbox"><span style=""> Date</span><br>
+            <input autocomplete="off" style="width: 50%;" value="" type="number" min="0" name="write_down_weight" id="write_down_weight" onfocus="focus_on(1)" onblur="focus_off(1),move_action_back(1)"><span style="">Weight</span><br>
             <img onclick="close_feedback_field(),start_ex()" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" src="{{ url_for('static', filename='img/plus.png') }}" style="width: 10%; margin-top: 2%; margin-left: 2%; transition: 0.1s ease;" class="easy_anim">
-            <input onclick="stop()" type="submit" value="Save" name="write_down_all" style="float:right;">
+            <input onclick="stop_time()" type="submit" value="Save" name="write_down_all" style="float:right;">
           </form>
         </div>
 
-        <div class="actions" onmouseover="move(2),ins_up(2)" onmouseout="ins_down(2),move_back(2)">
+        <div class="actions" onmouseover="move_action(2),note_action_as_active(2)" onmouseout="note_action_as_non_active(2),move_action_back(2)">
           <img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/second_action_image.png') }}">
-          <p id="lol2" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Exercise <span style="color: red;"><?=$mistake?></span></p>
-
-          <form  method="POST" id="forma2" style="position: absolute; z-index: -1;">
+          <p id="caption2" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Exercise <span style="color: red;"><?=$mistake?></span></p>
+          <form  method="POST" id="form_action_2" style="position: absolute; z-index: -1;">
             <span>Exercise's name</span><br>
-            <input autocomplete="off" type="text" style="width: 50%;" name="exname" onfocus="plus(2)" onblur="minus(2),move_back(2)"><span style="color: red"><?=$error?></span><br>
+            <input autocomplete="off" type="text" style="width: 50%;" name="exname" onfocus="focus_on(2)" onblur="focus_off(2),move_action_back(2)"><span style="color: red"><?=$error?></span><br>
             <span>Type of muscules</span><br>
             <select name="select" style=" padding: 4px; margin: 5px; font-size: 1vw; border-radius: 5px; outline: 0; transition: 0.15s ease;width: 30%; background-color: #fff; size: '3';">
               <option value="Other">Other</option>
@@ -468,7 +468,7 @@
           </form>
         </div>
 
-        <div class="actions" onmouseover="move(3),ins_up(3)" onmouseout="ins_down(3),move_back(3)">
+        <div class="actions" onmouseover="move_action(3),note_action_as_active(3)" onmouseout="note_action_as_non_active(3),move_action_back(3)">
           <a href="lol.html"><img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/third_action_image.png') }}"></a>
           <p style="padding-left: 2%; margin-top: 100%;">Stopwatch</p>
         </div>
@@ -477,17 +477,15 @@
 
 
 
-
-
     <footer>
-      <span class="left" style="margin-top: 0.6%; margin-left:0.4%;">
-        Almost all rights reserved &copy 2019
+      <span class="footer_left" style="margin-top: 0.6%; margin-left:0.4%;">
+        Almost all rights reserved &copy 2020
       </span>
-      <div  style="height: 100%;" class="wcid">
-        <a href=""><img src="{{ url_for('static', filename='img/facebook.png') }}" class="right" style="margin:0.3%; height: 80%; margin-right: 1%;"></a>
-        <a href=""><img src="{{ url_for('static', filename='img/telegram.png') }}" class="right"  style="margin:0.3%; height: 80%;"></a>
-        <a href=""><img src="{{ url_for('static', filename='img/instagram.png') }}" class="right"  style="margin:0.3%; height: 80%;"></a>
-        <a href=""><img src="{{ url_for('static', filename='img/vkontakte.png') }}" class="right"  style="margin:0.3%; height: 80%;"></a>
+      <div  style="height: 100%;" class="soc_networks">
+        <a href=""><img src="{{ url_for('static', filename='img/facebook.png') }}" class="footer_right" style="margin:0.3%; height: 80%; margin-right: 1%;"></a>
+        <a href=""><img src="{{ url_for('static', filename='img/telegram.png') }}" class="footer_right"  style="margin:0.3%; height: 80%;"></a>
+        <a href=""><img src="{{ url_for('static', filename='img/instagram.png') }}" class="footer_right"  style="margin:0.3%; height: 80%;"></a>
+        <a href=""><img src="{{ url_for('static', filename='img/vkontakte.png') }}" class="footer_right"  style="margin:0.3%; height: 80%;"></a>
         <span class="special">
           Social networks
         </span>
