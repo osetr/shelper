@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, SelectField
 from wtforms import validators
 from wtforms.validators import Required, Email, Length, Regexp
 
@@ -15,3 +15,8 @@ class SignInForm(FlaskForm):
     name = StringField("", validators=[Required()])
     password = PasswordField("",  validators=[Required()])
     submit = SubmitField("Login")
+
+class NewExForm(FlaskForm):
+    name = StringField("Exercise's name", validators=[Required()])
+    category = SelectField(u"Type of muscules", choices=['Other','Arms','Legs','Back','Chest','Neck','Abs'], validate_choice=False)
+    submit = SubmitField("Save")
