@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, session, redirect, url_for, request
+from flask import render_template, session, redirect, url_for, request, make_response
 from app import app, db
 from form import SignUpForm, SignInForm, NewExForm
 import crud
@@ -20,7 +20,9 @@ def index():
     errors = {}
     if crud.FormIsValid(form):
         if crud.UserExists() and crud.UserFilledInCorrectData():
-            return redirect(url_for('main'))
+            response = make_response(redirect(url_for('main')))
+            response.set_cookie('access_token', crud.GetAccessToken())
+            return response
         else:
              errors = {'LoginError': ["Failed login or password."]}
     return render_template('index.html', form=form, errors=errors)

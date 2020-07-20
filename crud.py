@@ -2,11 +2,13 @@ from model import User, Exercises
 from app import db
 from passlib.context import CryptContext
 from flask import session, request, jsonify
-from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
-)
+import jwt
+from jwt import PyJWTError
+from datetime import datetime, timedelta
 import uuid
+
+SECRET_KEY = 'asfdgfg'
+ALGORITHM = 'HS256'
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -27,16 +29,14 @@ def AddUserToDataBase():
 def AddExerciseToDataBase():
     name = request.form['name']
     category = request.form['category']
-    user_id = 1
+    token = request.cookies.get('access_token')
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    user_id = payload.get("user_id")
     db.session.add(Exercises(user_id=user_id,
                              muscules_type=category,
                              exercise_name=name))
     db.session.commit()
     return 0;
-
-def AuthUser():
-    access_token = create_access_token(identity=request.form['name'])
-    return jsonify(access_token=access_token), 200
 
 def UserExists():
     return User.query.filter_by(login=request.form['name']).first()
@@ -46,3 +46,13 @@ def UserFilledInCorrectData():
     password = request.form['password']
     hashed_password = User.query.filter_by(login=login).first().hashed_password
     return pwd_context.verify(password, hashed_password)
+
+def GetAccessToken():
+    user_id = User.query.filter_by(login=request.form['name']).first().id
+    to_encode = {'sub':request.form['name'],
+                 'user_id': user_id,
+                 'User-Agent':request.headers.get('User-Agent')}
+    expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
