@@ -52,7 +52,25 @@ def GetAccessToken():
     to_encode = {'sub':request.form['name'],
                  'user_id': user_id,
                  'User-Agent':request.headers.get('User-Agent')}
-    expire = datetime.utcnow() + timedelta(minutes=15)
+    expire = datetime.utcnow() + timedelta(minutes=100)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+def CheckAccessToken():
+    token = request.cookies.get('access_token')
+    jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
+def GetExerciseList():
+    token = request.cookies.get('access_token')
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    user_id = payload.get("user_id")
+    dict = {}
+    for muscules_type in ['Arms','Legs','Back','Chest','Neck','Abs','Other']:
+        list = [iter.exercise_name
+                for iter in Exercises.query
+                                  .filter_by(user_id=user_id,
+                                             muscules_type=muscules_type)
+                                  .all()]
+        dict.update({muscules_type: list})
+    return dict

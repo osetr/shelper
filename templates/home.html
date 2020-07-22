@@ -197,7 +197,12 @@
   var date_flag=0;
   function date_go()
   {
-    $d="<?php echo $date?>";
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    today = yyyy + "-" + mm + "-" + dd;
+    $d=today;
     if (date_flag==0)
     {
       $("#date").attr("value",$d);
@@ -209,13 +214,22 @@
     }
   }
 
-  var other=eval('<?php echo $ar1;?>');
-  var legs=eval('<?php echo $ar2;?>');
-  var back=eval('<?php echo $ar3;?>');
-  var chest=eval('<?php echo $ar4;?>');
-  var neck=eval('<?php echo $ar5;?>');
-  var abs=eval('<?php echo $ar6;?>');
-  var arms=eval('<?php echo $ar7;?>');
+  function isValidDate(dateString)
+  {
+    if(!/^\d{4}\-\d{2}\-\d{2}$/.test(dateString))
+    return false;
+    var parts = dateString.split("-");
+    var day = parseInt(parts[2], 10);
+    var month = parseInt(parts[1], 10);
+    var year = parseInt(parts[0], 10);
+    if(year < 1000 || year > 3000 || month == 0 || month > 12)
+    return false;
+    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+    monthLength[1] = 29;
+    return day > 0 && day <= monthLength[month - 1];
+  };
+
   function open_special_exercise_with_order(val)
   {
     $("#block"+val).attr("style","display:block;");
@@ -224,7 +238,9 @@
   {
     for (var val=1; val<=7; val++) $("#block"+val).attr("style","display:none;");
   }
+
   var i=1;
+  var j=1;
   var sett=0;
   var cur="";
   var saved_id=1;
@@ -251,18 +267,11 @@
     $("#inpex"+inp_id).attr("value",arr_exe[inp_id]);
     $("#inpwe"+inp_id).attr("value",arr_wei[inp_id]);
     inp_id++;
-    ///////////////////////////////////////////////////////////////////////////
     saved_id++;
     document.getElementById('fixing_field').innerHTML+=s;
+    document.getElementById('all_exercises_during_training').value+=arr_exe[saved_id-1] + ":" + arr_wei[saved_id-1] + " "
   }
-  function outtt()
-  {
-    for (var i=1; i<saved_id; i++)
-    {
-      if (arr_exi[i]==1) console.log(arr_exe[i]);
-    }
-  }
-  function set(val)
+  function fix_selected_exercise(val)
   {
     sett=val;
     if (cur=="")
@@ -272,59 +281,6 @@
     }
     else
     $("#ept").attr("value",document.getElementById('exname_' + sett).innerHTML);
-  }
-
-
-
-
-  function isValidDate(dateString)
-  {
-    // First check for the pattern
-    if(!/^\d{4}\-\d{2}\-\d{2}$/.test(dateString))
-    return false;
-
-    // Parse the date parts to integers
-    var parts = dateString.split("-");
-    var day = parseInt(parts[2], 10);
-    var month = parseInt(parts[1], 10);
-    var year = parseInt(parts[0], 10);
-
-    // Check the ranges of month and year
-    if(year < 1000 || year > 3000 || month == 0 || month > 12)
-    return false;
-
-    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-
-    // Adjust for leap years
-    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
-    monthLength[1] = 29;
-
-    // Check the range of the day
-    return day > 0 && day <= monthLength[month - 1];
-  };
-  function stop_time()
-  {
-    if (!isValidDate(document.getElementById('date').value))
-    {
-      $("#date").attr("style","border-color: red; width: 50%;");
-      event.preventDefault();
-    } else
-    {
-      var user_id="<?php echo $_SESSION[id] ?>";
-      console.log(user_id);
-      var com=document.getElementById('write_down_comment').value;
-      var dat=document.getElementById('date').value;
-      var wei=document.getElementById('write_down_weight').value;
-      if (com=="") com=" ";
-      if (wei=="") wei=-1;
-      Show1(user_id,com,dat,wei);
-
-      for (var p=1; p<arr_exe.length; p++)
-      {
-        Show2(user_id,arr_exe[p],arr_wei[p]);
-      }
-      event.preventDefault();
-    }
   }
   </script>
 </head>
@@ -351,9 +307,11 @@
     <div style="position: fixed; height: 100%; width: 100%; margin: 0px; background-color: #000; opacity: 0.5; z-index: 99;"></div>
     <div onmouseover="cursor_on_help_menu_up()" onmouseout="cursor_on_help_menu_down()" style="position: fixed; height: 30%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 15%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
       <div class="internal_block_for_dark_background" style="height: 90%;">
-        <div><span>
-          Enjoy using=)
-        </span></div>
+        <div>
+          <span>
+            Enjoy using=)
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -365,16 +323,20 @@
     <div id="external_exercise_block" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" style="position: fixed; height: 80%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
       <center><span style="color: #fff; font-size: 3vh;">Exercises</span></center>
       <div class="internal_block_for_dark_background" onmouseover="cursor_on_exercise_list_up()" onmouseout="cursor_on_exercise_list_down()">
-        {% for ex in exercise_list %}
-        <div onclick="close_all_exercises_in_exlist(),open_special_exercise_with_order({{(exercise_list.index(ex) + 1) | string() }})"><span>{{ ex }}</span></div>
-        <hr>
-        <block id={{ "block" + (exercise_list.index(ex) + 1) | string() }} style="display: none; position: absolute;">
-          <hr  style='border-color:red;'>
+        {% for muscule_type in ex_list %}
+        <script type="text/javascript">
+        document.write("<div onclick='close_all_exercises_in_exlist(),open_special_exercise_with_order(" + i + ")'><span>{{ muscule_type }}</span></div>")
+        document.write("<block id='block" + i + "' style='display: none; position: absolute;'>")
+        i++
+        </script>
+          {% for exercise in ex_list[muscule_type] %}
           <script type="text/javascript">
-          arms.forEach(element=>{document.write("<div onclick='set(" + i + ")' id='exercise" + i + "' style='padding:1.5%; padding-left: 40%;'><span id='exname_" + i + "'>" + element + "</span></div><hr style='border-color:red;'>"); i++;});
+          document.write("<div onclick='fix_selected_exercise(" + j + ")' id='exercise" + j +"' style='padding:1.5%; padding-left: 40%;'>")
+          document.write("<span id='exname_" + j + "'>{{ exercise }}</span></div>")
+          j++;
           </script>
+          {% endfor %}
         </block>
-        <hr>
         {% endfor %}
       </div>
       <input onfocus="clean_weight_field()" id="weight" type="number" name="" placeholder="Weight">
@@ -434,11 +396,21 @@
           <img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/first_action_image.png') }}">
           <p id="caption1" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Training</p>
           <form  id="form_action_1" style="position: absolute; z-index: -1;" action="main.php" method="POST">
-            <input autocomplete="off" style="width: 50%;" value="" type="text" name="write_down_comment" id="write_down_comment"  onfocus="focus_on(1)" onblur="focus_off(1),move_action_back(1)"><span>Write down comment</span><br>
+            {{ form_train.comment(autocomplete="off", style="width: 50%;", value="", type="text", id="write_down_comment",  onfocus="focus_on(1)", onblur="focus_off(1),move_action_back(1)")}}
+            {{ form_train.comment.label }}<br>
+            {{ form_train.date(autocomplete="off", style="width: 50%;", value="", type="", id="date", onfocus="focus_on(1)", placeholder="yyyy-mm-dd", onblur="focus_off(1),move_action_back(1)")}}
+            {{ form_train.date.label }}<br>
+            {{ form_train.weight(autocomplete="off", style="width: 50%;", type="number", min="0", id="write_down_weight", onfocus="focus_on(1)", onblur="focus_off(1),move_action_back(1)")}}
+            {{ form_train.weight.label }}<br>
+            <img onclick="close_feedback_field(),start_ex()" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" src="{{ url_for('static', filename='img/plus.png') }}" style="width: 10%; margin-top: 2%; margin-left: 2%; transition: 0.1s ease;" class="easy_anim">
+            {{ form_train.training_list(id="all_exercises_during_training", value="") }}
+            {{ form_train.submit(onclick="stop_time()", type="submit", value="Save", style="float:right;") }}
+            <!-- <input autocomplete="off" style="width: 50%;" value="" type="text" name="write_down_comment" id="write_down_comment"  onfocus="focus_on(1)" onblur="focus_off(1),move_action_back(1)"><span>Write down comment</span><br>
             <input autocomplete="off" style="width: 50%;" value="" type="" id="date" name="write_down_date" onfocus="focus_on(1)" value="" placeholder="yyyy-mm-dd" onblur="focus_off(1),move_action_back(1)"><input onclick="date_go()" type="checkbox"><span style=""> Date</span><br>
             <input autocomplete="off" style="width: 50%;" value="" type="number" min="0" name="write_down_weight" id="write_down_weight" onfocus="focus_on(1)" onblur="focus_off(1),move_action_back(1)"><span style="">Weight</span><br>
             <img onclick="close_feedback_field(),start_ex()" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" src="{{ url_for('static', filename='img/plus.png') }}" style="width: 10%; margin-top: 2%; margin-left: 2%; transition: 0.1s ease;" class="easy_anim">
             <input onclick="stop_time()" type="submit" value="Save" name="write_down_all" style="float:right;">
+            <input type="hidden" id="all_exercises_during_training" value=""> -->
           </form>
         </div>
 
@@ -446,12 +418,12 @@
           <img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/second_action_image.png') }}">
           <p id="caption2" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Exercise <span style="color: red;"><?=$mistake?></span></p>
           <form  method="POST" id="form_action_2" style="position: absolute; z-index: -1;">
-            {{ form.csrf_token }}
-            {{ form.name.label }}<br>
-            {{ form.name(autocomplete='off', value='', style='width: 50%;', onfocus='focus_on(2)', onblur='focus_off(2),move_action_back(2)') }}<br>
-            {{ form.category.label }}<br>
-            {{ form.category(style="padding: 4px; margin: 5px; font-size: 1vw; border-radius: 5px; outline: 0; transition: 0.15s ease;width: 30%; background-color: #fff; size: '3';") }}<br>
-            {{ form.submit() }}
+            {{ form_ex.csrf_token }}
+            {{ form_ex.name.label }}<br>
+            {{ form_ex.name(autocomplete='off', value='', style='width: 50%;', onfocus='focus_on(2)', onblur='focus_off(2),move_action_back(2)') }}<br>
+            {{ form_ex.category.label }}<br>
+            {{ form_ex.category(style="padding: 4px; margin: 5px; font-size: 1vw; border-radius: 5px; outline: 0; transition: 0.15s ease;width: 30%; background-color: #fff; size: '3';") }}<br>
+            {{ form_ex.submit() }}
           </form>
         </div>
 

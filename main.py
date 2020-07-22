@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, session, redirect, url_for, request, make_response
 from app import app, db
-from form import SignUpForm, SignInForm, NewExForm
+from form import SignUpForm, SignInForm, NewExForm, NewTrainForm
 import crud
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -45,8 +45,14 @@ def auth():
 
 @app.route('/home', methods=['GET', 'POST'])
 def main():
-    form = NewExForm()
-    if crud.FormIsValid(form):
+    try:
+        crud.CheckAccessToken()
+    except:
+        return "soory"
+    form_ex = NewExForm()
+    form_train = NewTrainForm()
+    if crud.FormIsValid(form_ex):
         crud.AddExerciseToDataBase()
         return redirect(url_for('main'))
-    return render_template('home.html', form=form, exercise_list=['Arms','Legs','Back','Chest','Neck','Abs','Other'])
+    ex_list = crud.GetExerciseList()
+    return render_template('home.html', form_ex=form_ex, form_train=form_train, ex_list=ex_list)
