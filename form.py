@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, SelectField, HiddenField, IntegerField
+from wtforms import StringField, SubmitField, PasswordField, SelectField, HiddenField, IntegerField, TextAreaField
 from wtforms import validators
 from wtforms.validators import Required, Email, Length, Regexp
 
@@ -18,12 +18,16 @@ class SignInForm(FlaskForm):
 
 class NewExForm(FlaskForm):
     name = StringField("Exercise's name", validators=[Required()])
-    category = SelectField(u"Type of muscules", choices=['Other','Arms','Legs','Back','Chest','Neck','Abs'], validate_choice=False)
-    submit = SubmitField("Save")
+    category = SelectField("Type of muscules", choices=['Other','Arms','Legs','Back','Chest','Neck','Abs'], validate_choice=False)
+    submit = SubmitField("Save", id="new_exercise_submit")
 
 class NewTrainForm(FlaskForm):
     comment = StringField("Write down comment")
     date = StringField("Date", validators=[Required()])
     weight = IntegerField("Weight")
     training_list = HiddenField("List")
-    submit = SubmitField("Save")
+    submit = SubmitField("Save", id="new_train_submit")
+
+class FeedbackForm(FlaskForm):
+    text = TextAreaField("Feedback", validators=[Required()])
+    submit = SubmitField("Send", id="feedback_submit")

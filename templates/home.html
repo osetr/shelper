@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="keywords" content="sport, trining, exircises">
   <meta name="author" content="Anton">
-  <title>Home page</title>
+  <title>SHelper</title>
   <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Bitter|Mansalva|Oswald&display=swap" rel="stylesheet">
@@ -247,7 +247,6 @@
   var inp_id=1;
   var arr_exe=new Array();
   var arr_wei=new Array();
-  var arr_exi=new Array();
   function clean_weight_field()
   {
     document.getElementById('weight').value="";
@@ -257,7 +256,8 @@
     $("#saved"+val).attr("style","display:none;");
     $("#inpex"+val).attr("value","");
     $("#inpwe"+val).attr("value","");
-    arr_exi[val]=0;
+    var train = document.getElementById('all_exercises_during_training').value;
+    $("#all_exercises_during_training").attr("value",train.replace(arr_exe[val]+":"+arr_wei[val]+" ", ""));
   }
   function fix_exercise_to_save()
   {
@@ -281,6 +281,14 @@
     }
     else
     $("#ept").attr("value",document.getElementById('exname_' + sett).innerHTML);
+  }
+  function stop_time()
+  {
+      if (!isValidDate(document.getElementById('date').value))
+      {
+        $("#date").attr("style","border-color: red; width: 50%;");
+        event.preventDefault();
+      }
   }
   </script>
 </head>
@@ -354,24 +362,25 @@
   <div class="whole_visible_part">
       <header>
         <img class="shelper_title_icon" src="{{ url_for('static', filename='img/shelper_title_icon.png') }}">
-        <a class="shelper_link" href="main.html">
+        <a class="shelper_link" href="">
           SHelper
         </a>
         <a onclick="open_feedback_field()" style="cursor: pointer;">
           Feedback
           <div id="feedback_field" style="display: none;">
             <div style="padding: 3%; position: absolute; height: 130%; width: 15%; background-color: #000; opacity: 0.6; top: 105%; z-index: 100000; border-radius: 5px;">
-              <form method="POST" action="main.php">
-                <textarea name="comment"></textarea>
+              <form method="POST">
+                {{ form_feedback.text(class="feedback") }}
                 <img  onmouseover="light_up_cross()" onmouseout="light_out_cross()" onclick="close_feedback_field()" src="{{ url_for('static', filename='img/cross.png') }}" id="cross">
-                <input  type="submit" value="Send" name="send_back" style="cursor: pointer; position: absolute; top: 79%; font-size: 1vw; right: 1%; background-color: #000; color: #f0f0f0; border-width: 1px;"></form>
+                {{ form_feedback.submit(style="cursor: pointer; position: absolute; top: 81%; font-size: 1vw; right: 3%; background-color: #000; color: #f0f0f0; border-width: 1px;") }}
+                </form>
             </div>
           </div>
         </a>
-        <a class="regist_link" href="auth.php">
+        <a class="regist_link" href={{ url_for('auth') }}>
           Regist
         </a>
-        <a href="index.php" class="exit_link">
+        <a href={{ url_for('index') }}>
           Exit
         </a>
       </header><br>
@@ -383,7 +392,7 @@
           <hr>
           <div class="sections">
             <a href=""><span style="color:#000;">Actions</span></a>
-            <a href="look.php"><span>Look</span></a>
+            <a href={{ url_for('look') }}><span>Look</span></a>
             <a onclick="start_about(),close_feedback_field()" onmouseover="cursor_on_about_menu_up()" onmouseout="cursor_on_about_menu_down()"><span  style="white-space: nowrap; cursor: pointer; ">About us</span></a>
             <a onclick="start_help(),close_feedback_field()" onmouseover="cursor_on_help_menu_up()" onmouseout="cursor_on_help_menu_down()"><span style="cursor: pointer; ">Help</span></a>
           </div>
@@ -395,22 +404,16 @@
         <div class="actions" onmouseover="move_action(1),note_action_as_active(1)" onmouseout="note_action_as_non_active(1),move_action_back(1)">
           <img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/first_action_image.png') }}">
           <p id="caption1" style="padding-left: 2%; position: absolute; margin-top: 100%; transition: 0.1s ease;">New Training</p>
-          <form  id="form_action_1" style="position: absolute; z-index: -1;" action="main.php" method="POST">
-            {{ form_train.comment(autocomplete="off", style="width: 50%;", value="", type="text", id="write_down_comment",  onfocus="focus_on(1)", onblur="focus_off(1),move_action_back(1)")}}
+          <form  method="POST" id="form_action_1" style="position: absolute; z-index: -1;">
+            {{ form_train.comment(autocomplete="off", style="width: 50%;", id="write_down_comment",  onfocus="focus_on(1)", onblur="focus_off(1),move_action_back(1)")}}
             {{ form_train.comment.label }}<br>
-            {{ form_train.date(autocomplete="off", style="width: 50%;", value="", type="", id="date", onfocus="focus_on(1)", placeholder="yyyy-mm-dd", onblur="focus_off(1),move_action_back(1)")}}
-            {{ form_train.date.label }}<br>
+            {{ form_train.date(autocomplete="off", style="width: 50%;", id="date", onfocus="focus_on(1)", placeholder="yyyy-mm-dd", onblur="focus_off(1),move_action_back(1)")}}
+            <input onclick="date_go()" type="checkbox">{{ form_train.date.label }}<br>
             {{ form_train.weight(autocomplete="off", style="width: 50%;", type="number", min="0", id="write_down_weight", onfocus="focus_on(1)", onblur="focus_off(1),move_action_back(1)")}}
             {{ form_train.weight.label }}<br>
             <img onclick="close_feedback_field(),start_ex()" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" src="{{ url_for('static', filename='img/plus.png') }}" style="width: 10%; margin-top: 2%; margin-left: 2%; transition: 0.1s ease;" class="easy_anim">
             {{ form_train.training_list(id="all_exercises_during_training", value="") }}
             {{ form_train.submit(onclick="stop_time()", type="submit", value="Save", style="float:right;") }}
-            <!-- <input autocomplete="off" style="width: 50%;" value="" type="text" name="write_down_comment" id="write_down_comment"  onfocus="focus_on(1)" onblur="focus_off(1),move_action_back(1)"><span>Write down comment</span><br>
-            <input autocomplete="off" style="width: 50%;" value="" type="" id="date" name="write_down_date" onfocus="focus_on(1)" value="" placeholder="yyyy-mm-dd" onblur="focus_off(1),move_action_back(1)"><input onclick="date_go()" type="checkbox"><span style=""> Date</span><br>
-            <input autocomplete="off" style="width: 50%;" value="" type="number" min="0" name="write_down_weight" id="write_down_weight" onfocus="focus_on(1)" onblur="focus_off(1),move_action_back(1)"><span style="">Weight</span><br>
-            <img onclick="close_feedback_field(),start_ex()" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" src="{{ url_for('static', filename='img/plus.png') }}" style="width: 10%; margin-top: 2%; margin-left: 2%; transition: 0.1s ease;" class="easy_anim">
-            <input onclick="stop_time()" type="submit" value="Save" name="write_down_all" style="float:right;">
-            <input type="hidden" id="all_exercises_during_training" value=""> -->
           </form>
         </div>
 
@@ -428,7 +431,7 @@
         </div>
 
         <div class="actions" onmouseover="move_action(3),note_action_as_active(3)" onmouseout="note_action_as_non_active(3),move_action_back(3)">
-          <a href="lol.html"><img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/third_action_image.png') }}"></a>
+          <a href={{ url_for('stopwatch') }}><img style="width: 100%; position: absolute; z-index: 100;" src="{{ url_for('static', filename='img/third_action_image.png') }}"></a>
           <p style="padding-left: 2%; margin-top: 100%;">Stopwatch</p>
         </div>
       </div>

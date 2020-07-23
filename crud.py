@@ -1,4 +1,4 @@
-from model import User, Exercises
+from model import User, Exercises, Trainings, Feedbacks
 from app import db
 from passlib.context import CryptContext
 from flask import session, request, jsonify
@@ -13,7 +13,7 @@ ALGORITHM = 'HS256'
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def FormIsValid(form):
-    return form.validate_on_submit() and form.is_submitted()
+    return form.validate() and form.is_submitted()
 
 def AddUserToDataBase():
     login = request.form['name']
@@ -36,7 +36,42 @@ def AddExerciseToDataBase():
                              muscules_type=category,
                              exercise_name=name))
     db.session.commit()
-    return 0;
+    return 0
+
+def AddTrainingToDataBase():
+    training_id = str(uuid.uuid4())
+    token = request.cookies.get('access_token')
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    user_id = payload.get("user_id")
+    comment = request.form['comment']
+    date = request.form['date']
+    weight = request.form['weight']
+    if weight == "":
+        weight = -1
+    training_list = request.form['training_list']
+    exercises_list = splited_training_list = training_list.split()
+    for exercise in exercises_list:
+        exercise_name = (exercise.split(":"))[0]
+        exercise_weight = (exercise.split(":"))[1]
+        db.session.add(Trainings(training_id=training_id,
+                                 user_id=user_id,
+                                 comment=comment,
+                                 date_time=date,
+                                 weight=weight,
+                                 exercise_name= exercise_name,
+                                 exercise_weight=exercise_weight))
+        db.session.commit()
+    return 0
+
+def AddFeedbackToDataBase():
+    token = request.cookies.get('access_token')
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    user_id = payload.get("user_id")
+    text = request.form['text']
+    db.session.add(Feedbacks(user_id=user_id,
+                             text=text))
+    db.session.commit()
+    return 0
 
 def UserExists():
     return User.query.filter_by(login=request.form['name']).first()

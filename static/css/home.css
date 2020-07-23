@@ -454,7 +454,7 @@ block hr
 }
 
 
-textarea
+.feedback
 {
 	overflow-y: scroll;
 	padding: 1%;
@@ -462,14 +462,14 @@ textarea
 	top: 5%;
 	left: 7%;
 	height: 70%;
-	width: 88%;
+	width: 85%;
 	border-radius: 5px;
 	background-color: #303030;
 	resize: none;
 	border-color: #000;
 }
 
-textarea:focus
+.feedback:focus
 {
 	outline: none;
 	background-color: #fff;

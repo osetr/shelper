@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SHelper</title>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery/jq.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+	<link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/css?family=Bitter|Mansalva|Oswald&display=swap" rel="stylesheet">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/look.css') }}">
+	<script type="text/javascript">
+		var exe_nam1=eval('<?php echo $ar_exe_name1;?>');
+        var exe_typ1=eval('<?php echo $ar_exe_type1;?>');
+        var exe_dat1=eval('<?php echo $ar_exe_date1;?>');
+		var exe_nam2=eval('<?php echo $ar_exe_name2;?>');
+        var exe_typ2=eval('<?php echo $ar_exe_type2;?>');
+        var exe_dat2=eval('<?php echo $ar_exe_date2;?>');
+        var exist=Array();
+        var tr_id=eval('<?php echo $ar_tr_id;?>');
+        var tr_comment=eval('<?php echo $ar_comment;?>');
+        var tr_date=eval('<?php echo $ar_date;?>');
+        var tr_weight=eval('<?php echo $ar_weight;?>');
+        var tr_id_ex=eval('<?php echo $ar_tr_id_ex;?>');
+        var exe=eval('<?php echo $ar_exercise;?>');
+        var result=eval('<?php echo $ar_result;?>');
+        for (var i=1; i<=exe_nam1.length; i++)
+        {
+        	exist[i]=1;
+        }
+        function empt_down()
+        {
+        	$("#empt").attr("style","display:none;");
+        }
+        function empt_up()
+        {
+        	$("#empt").attr("style","display:block;");
+        }
+        function exe_down()
+        {
+        	$("#all_exercises").attr("style","display:none;");
+        }
+        function exe_up()
+        {
+        	$("#all_exercises").attr("style","display:block;");
+        }
+        function delete_ex(val)
+        {
+        	$('#div_'+val).attr("style","display:none;");
+        	Del(document.getElementById('span_' + val).innerHTML);
+        	exist[val]=0;
+        }
+        var tr_exe_date=Array();
+        function tr_up()
+        {
+        	exe_ex=1;
+        	var how_many=document.getElementById('how_many').value;
+        	if (how_many=="") how_many=Infinity;
+        	$("#stat").attr("style","z-index:1243; display:block; position: fixed; right:10%; top:52%; width: 30vw; transition: 0.5s ease;");
+        	$("#stat1").attr("style","z-index:1243; display:block; position: fixed; right:10%; top:18%; width: 30vw; transition: 0.5s ease;");
+        	document.getElementById('son_all_training').innerHTML="<span>All your training</span>"
+
+			for (var i=1; i<=Math.min(tr_id.length,how_many); i++)
+				{
+					if (tr_weight[i-1]==-1) document.getElementById('son_all_training').innerHTML+="<div id='div_" + i + "'><span id='span_" + i + "'>" + tr_date[i-1] + "</span><span style='position:absolute; right:10vw;'>" + " " + "</span><span style='position:absolute; right:0;'>" + " " + "</span></div>";	else
+					document.getElementById('son_all_training').innerHTML+="<div id='div_" + i + "'><span id='span_" + i + "'>" + tr_date[i-1] + "</span><span style='position:absolute; right:10vw;'>" + tr_comment[i-1] + "</span><span style='position:absolute; right:0;'>" + tr_weight[i-1] + "</span></div>";
+					for (var j=1; j<=tr_id_ex.length; j++)
+				{
+					if (tr_id[i-1]==tr_id_ex[j-1])
+						{document.getElementById('son_all_training').innerHTML+="<div style='background-color:#f0f0f0' id='div_" + j + "'><span id='span_" + j + "' style='color:#f0f0f0;'>" + "." + "</span><span style='position:absolute; right:10vw;'>" + exe[j-1] + "</span><span style='position:absolute; right:0;'>" + result[j-1] + "</span></div>";
+					tr_exe_date[j-1]=tr_date[i-1];
+				}
+				}
+				}
+
+        	$("#all_training").attr("style","display:block;");
+        }
+        function tr_down()
+        {
+        	exe_ex=0;
+        	$("#all_training").attr("style","display:none;");
+        }
+        function perv_date()
+        {
+        	document.getElementById('son_all_exercise').innerHTML="<span style='font-size: 3vh;'>All your exercises</span>";
+        	for (var i=1; i<=exe_nam2.length; i++) if (exist[i]==1) document.getElementById('son_all_exercise').innerHTML+="<div onclick='delete_ex(" + i + ")' id='div_" + i + "'><span id='span_" + i + "'>" + exe_nam2[i-1] + "</span><span style='position:absolute; right:20vw;'>" + exe_typ2[i-1] + "</span><span style='position:absolute; right:0;'>" + exe_dat2[i-1] + "</span></div>";
+        }
+        function perv_type()
+        {
+        	document.getElementById('son_all_exercise').innerHTML="<span style='font-size: 3vh;'>All your exercises</span>";
+        	for (var i=1; i<=exe_nam1.length; i++) if (exist[i]==1) document.getElementById('son_all_exercise').innerHTML+="<div onclick='delete_ex(" + i + ")' id='div_" + i + "'><span id='span_" + i + "'>" + exe_nam1[i-1] + "</span><span style='position:absolute; right:20vw;'>" + exe_typ1[i-1] + "</span><span style='position:absolute; right:0;'>" + exe_dat1[i-1] + "</span></div>";
+        }
+       	async function Del(value){
+      	try {
+        const url = 'http://localhost:4000/del/';
+        const response = fetch(url, {
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, cors, *same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+                //'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify({val:value}),
+            //body: {main: this.state.mainObj}, // тип данных в body должен соответвовать значению заголовка "Content-Type"
+        });
+	      } catch (error) {
+	        console.error('Ошибка:', error);
+	      }
+	  	  }
+	  	  var exe_ex=0;
+	  	  function isThere(val)
+	  	  {
+	  	  	var res=0;
+	  	  	for (var i=0; i<exe.length; i++) if (exe[i]==val) res=1;
+	  	  	return res;
+	  	  }
+
+	  	  function statistic_up()
+	  	  {
+	  	  	var how_many=document.getElementById('how_many').value;
+	  	  	if (how_many=="") how_many=Infinity;
+	  	  	if (exe_ex)
+	  	  	{
+	  	  	$("#stat").attr("style","z-index:1243; display:block; position: fixed; right:10%; top:45%; width: 30vw; transition: 0.5s ease;");
+	  	  	} else
+	  	  	$("#stat").attr("style","z-index:1243; display:block; position: fixed; right:30%; top:55%; width: 40vw;");ccd
+	  	  	if (isThere(document.getElementById('what_exe').value))
+	  	  	{
+	  	  		var static_exe_date=Array();
+	  	  		var static_res=Array();
+	  	  		var j=0;
+	  	  		for (var i=0; i<exe.length; i++){
+	  	  			if (exe[i]==document.getElementById('what_exe').value){
+	  	  				static_exe_date[j]=tr_exe_date[i];
+	  	  				static_res[j]=result[i];j++;
+	  	  			}
+	  	  		}
+	  	  	document.getElementById('stat').innerHTML+="<canvas id='myChart'></canvas>"
+
+				var ctx = document.getElementById('myChart').getContext('2d');
+			var chart = new Chart(ctx, {
+			    // The type of chart we want to create
+			    type: 'line',
+
+			    // The data for our dataset
+			    data: {
+			        labels: static_exe_date,
+			        datasets: [{
+			            label: document.getElementById('what_exe').value + " progress",
+			            borderColor: 'rgb(255, 99, 132)',
+			            borderWidth: 2,
+			            data: static_res
+			        }]
+			    },
+
+			    // Configuration options go here
+			    options: {}
+			});
+			}
+
+
+
+
+
+			if (exe_ex)
+	  	  	{
+        	$("#stat1").attr("style","z-index:1243; display:block; position: fixed; right:10%; top:13%; width: 30vw; transition: 0.5s ease;");
+	  	  	} else
+	  	  	$("#stat1").attr("style","z-index:1243; display:block; position: fixed; right:30%; top:13%; width: 40vw;");
+	  	  	document.getElementById('stat1').innerHTML+="<canvas id='myChart1'></canvas>"
+	  	  	var static_wei=Array();
+	  	  	var static_date=Array();
+
+	  	  	var how_many=document.getElementById('how_many').value;
+	  	  	if (how_many=="") how_many=Infinity;
+
+			var j=0;
+			for (var i=1; i<=Math.min(tr_id.length,how_many); i++)
+				{
+					if (tr_weight[Math.abs(Math.min(tr_id.length,how_many)-i)]!=-1)
+					{
+					static_wei[j]=tr_weight[Math.abs(Math.min(tr_id.length,how_many)-i)];
+					static_date[j]=tr_date[Math.abs(Math.min(tr_id.length,how_many)-i)];
+					j++;
+					}
+				}
+
+
+
+
+				var ctx = document.getElementById('myChart1').getContext('2d');
+			var chart = new Chart(ctx, {
+			    // The type of chart we want to create
+			    type: 'line',
+
+			    // The data for our dataset
+			    data: {
+			        labels: static_date,
+			        datasets: [{
+			            label: 'Weight progress',
+			            borderColor: 'rgb(0,0,0)',
+			            borderWidth: 2,
+			            data: static_wei
+			        }]
+			    },
+
+			    // Configuration options go here
+			    options: {}
+			});
+
+	  	  }
+
+	  	  function statistic_down()
+	  	  {
+	  	  	static_ex=0;
+	  	  	$("#stat").attr("style","display:none;");
+	  	  	$("#stat1").attr("style","display:none;");
+	  	  }
+	</script>
+</head>
+<body>
+
+	<div id="stat">
+
+	</div>
+
+	<div id="stat1">
+
+	</div>
+
+
+	<div id="all_training" style="display: none;">
+		<div class="tr" id="son_all_training">
+
+		</div>
+	</div>
+
+
+	<div class="header">
+		<img style="height: 80%; margin-left:2vh; margin-right: 2vh; filter: blur(1.4px);" class="im" src="{{ url_for('static', filename='img/shelper_title_icon.png') }}">
+		<span onclick="tr_up(),empt_down(),exe_down()">Go</span>
+		<input type="number" placeholder="How many trainings:" id="how_many" name="">
+		<span onclick="statistic_up(),empt_down(),exe_down()">View statistics</span>
+		<input type="text" placeholder="Choose exercise:" name="" id="what_exe">
+		<span onclick="empt_down(),exe_up(),tr_down(),statistic_down()">All exercises</span>
+	</div>
+
+
+	<div id="empt">
+	<div class="empty">
+		<span style="font-size: 3vh;">Fill in what you want to check</span>
+	</div>
+	</div>
+
+
+
+	<div  id="all_exercises" style="display: none;">
+
+	<form class="order_b" method="POST" action="look.php">
+		<span>Sort by</span><br>
+		<input onclick="perv_type()" type="button" name="type_muscl" value="type of muscles"><br>
+		<input onclick="perv_date()" type="button" name="date" value="date"><br>
+		<input type="button" style="background-color: red; opacity: 0.7;" value="click for deleting">
+	</form>
+
+	<div class="all" id="son_all_exercise">
+		<span style="font-size: 3vh;">All your exercises</span>
+		<script type="text/javascript">
+			for (var i=1; i<=exe_nam1.length; i++) document.write("<div onclick='delete_ex(" + i + ")' id='div_" + i + "'><span id='span_" + i + "'>" + exe_nam1[i-1] + "</span><span style='position:absolute; right:20vw;'>" + exe_typ1[i-1] + "</span><span style='position:absolute; right:0;'>" + exe_dat1[i-1] + "</span></div>");
+		</script>
+	</div>
+
+	</div>
+
+	<script type="text/javascript">
+	tr_up();
+	tr_down();
+</script>
+</body>
+</html>
