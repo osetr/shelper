@@ -18,7 +18,7 @@ class SignInForm(FlaskForm):
 
 class NewExForm(FlaskForm):
     name = StringField("Exercise's name", validators=[Required()])
-    category = SelectField("Type of muscules", choices=['Other','Arms','Legs','Back','Chest','Neck','Abs'], validate_choice=False)
+    category = SelectField("Type of muscles", choices=['Other','Arms','Legs','Back','Chest','Neck','Abs'], validate_choice=False)
     submit = SubmitField("Save", id="new_exercise_submit")
 
 class NewTrainForm(FlaskForm):
@@ -31,3 +31,7 @@ class NewTrainForm(FlaskForm):
 class FeedbackForm(FlaskForm):
     text = TextAreaField("Feedback", validators=[Required()])
     submit = SubmitField("Send", id="feedback_submit")
+
+class ConfirmDeletingForm(FlaskForm):
+    exercise_list_to_deleting = HiddenField("List")
+    submit = SubmitField("confirm deleting", id="confirm_delete_button")

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, session, redirect, url_for, request, make_response
 from app import app, db
-from form import SignUpForm, SignInForm, NewExForm, NewTrainForm, FeedbackForm
+from form import SignUpForm, SignInForm, NewExForm, NewTrainForm, FeedbackForm, ConfirmDeletingForm
 import crud
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -67,10 +67,30 @@ def main():
                                         form_train=form_train,
                                         ex_list=ex_list)
 
+
 @app.route('/stopwatch', methods=['GET', 'POST'])
 def stopwatch():
     return render_template('stopwatch.html')
 
+
 @app.route('/look', methods=['GET', 'POST'])
-def look():
-    return render_template('look.html')
+@app.route('/look/<sorted_by>', methods=['GET', 'POST'])
+def look(sorted_by=None):
+    form = ConfirmDeletingForm()
+    all_exercises = crud.GetExerciseList()
+    all_trainings = crud.GetTrainingList()
+    if sorted_by=="by_exname":
+        all_exercises = crud.SortExercises(exercises=all_exercises,
+                                           by="exercise_name")
+    elif sorted_by=="by_datetime":
+        all_exercises = crud.SortExercises(exercises=all_exercises,
+                                           by="date_time")
+    else:
+        all_exercises = crud.SortExercises(exercises=all_exercises)
+    if form.is_submitted():
+        crud.DeleteSelectedExercises()
+        return redirect(url_for('look'))
+    return render_template('look.html', all_exercises=all_exercises,
+                                        all_trainings=all_trainings,
+                                        form=form,
+                                        sorted_by=sorted_by)

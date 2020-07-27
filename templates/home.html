@@ -331,16 +331,16 @@
     <div id="external_exercise_block" onmouseover="cursor_on_exercise_menu_up()" onmouseout="cursor_on_exercise_menu_down()" style="position: fixed; height: 80%; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%; background-color: #000; opacity: 0.9; z-index: 100; border: 1px solid #642844; border-radius: 10px;">
       <center><span style="color: #fff; font-size: 3vh;">Exercises</span></center>
       <div class="internal_block_for_dark_background" onmouseover="cursor_on_exercise_list_up()" onmouseout="cursor_on_exercise_list_down()">
-        {% for muscule_type in ex_list %}
+        {% for muscle_type in ex_list %}
         <script type="text/javascript">
-        document.write("<div onclick='close_all_exercises_in_exlist(),open_special_exercise_with_order(" + i + ")'><span>{{ muscule_type }}</span></div>")
+        document.write("<div onclick='close_all_exercises_in_exlist(),open_special_exercise_with_order(" + i + ")'><span>{{ muscle_type }}</span></div>")
         document.write("<block id='block" + i + "' style='display: none; position: absolute;'>")
         i++
         </script>
-          {% for exercise in ex_list[muscule_type] %}
+          {% for exercise in ex_list[muscle_type] %}
           <script type="text/javascript">
           document.write("<div onclick='fix_selected_exercise(" + j + ")' id='exercise" + j +"' style='padding:1.5%; padding-left: 40%;'>")
-          document.write("<span id='exname_" + j + "'>{{ exercise }}</span></div>")
+          document.write("<span id='exname_" + j + "'>{{ exercise['name'] }}</span></div>")
           j++;
           </script>
           {% endfor %}

@@ -1,5 +1,6 @@
 from app import db
 import pymysql
+import datetime
 
 pymysql.install_as_MySQLdb()
 
@@ -23,6 +24,7 @@ class Exercises(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.String(40), db.ForeignKey('clients.id'), nullable=False)
+    date_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     muscules_type = db.Column(db.String(20), nullable=False)
     exercise_name = db.Column(db.String(40), nullable=False)
 
