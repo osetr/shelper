@@ -56,7 +56,7 @@ def AddTrainingToDataBase():
         db.session.add(Trainings(training_id=training_id,
                                  user_id=user_id,
                                  comment=comment,
-                                 date_time=date,
+                                 date=date,
                                  weight=weight,
                                  exercise_name= exercise_name,
                                  exercise_weight=exercise_weight))
@@ -120,9 +120,9 @@ def GetTrainingList():
     for training_id in amount_of_trainings:
         exercises_list = []
         for single_exercise in Trainings.query.filter_by(training_id=training_id).all():
-            exercises_list.append({'exercise_name':single_exercise.exercise_name, 'exercise_weight':single_exercise.weight})
-        list.append({"date":single_exercise.date_time,"comment":single_exercise.comment,"exercises":exercises_list})
-    return list
+            exercises_list.append({'exercise_name':single_exercise.exercise_name, 'exercise_weight':single_exercise.exercise_weight})
+        list.append({"date":single_exercise.date,"comment":single_exercise.comment,"exercises":exercises_list,"weight":single_exercise.weight})
+    return sorted(list, key = lambda tr: tr['date'], reverse=True)
 
 def DeleteSelectedExercises():
     token = request.cookies.get('access_token')

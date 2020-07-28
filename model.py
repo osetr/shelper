@@ -38,7 +38,7 @@ class Trainings(db.Model):
     training_id = db.Column(db.String(40), nullable=False)
     user_id = db.Column(db.String(40), db.ForeignKey('clients.id'), nullable=False)
     comment = db.Column(db.String(40))
-    date_time = db.Column(db.Date, nullable=False)
+    date = db.Column(db.Date, nullable=False)
     weight = db.Column(db.Integer)
     exercise_name = db.Column(db.String(40), nullable=False)
     exercise_weight = db.Column(db.Integer, default="-")

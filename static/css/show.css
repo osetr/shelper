@@ -3,7 +3,6 @@
 	padding: 0px;
 }
 
-
 .container-flued input
 {
 	font-size: 2vh;
@@ -19,7 +18,6 @@
 	transition: 0.3s ease;
 	cursor: pointer;
 }
-
 
 .container-flued input:focus
 {
@@ -42,7 +40,6 @@
 	font-size: 2.2vh;
 	cursor: pointer;
 }
-
 
 .container-flued span:hover{
 	color: #bac1cc;
@@ -70,7 +67,7 @@
 	transition: 0.1s ease;
 }
 
-.all{
+.all_exercises{
 	font-size: 1.2vw;
 	border-radius: 10px;
 	height: auto;
@@ -87,30 +84,31 @@
 	transition: 0.1s ease;
 }
 
-.all span{
+.all_exercises span{
 	padding: 0.5vh;
 }
 
-.all div{
+.all_exercises div{
 	cursor: pointer;
 	display: flex;
 	position: relative;
 	height: auto;
 	width: 100%;
 }
-.all div:hover{
+
+.all_exercises div:hover{
 	height: auto;
 	width: 100%;
 	background-color: red;
 }
 
-.order_b{
+.sort_by_form{
 	position: fixed;
 	top:13%;
 	left: 5%;
 }
 
-.order_b input{
+.sort_by_form input{
 	font-size: 2vh;
 	padding: 2px;
 	margin:0.5vh;
@@ -121,48 +119,18 @@
 	outline: 0;
 }
 
-.order_b input:hover{
+.sort_by_form input:hover{
 	background-color: #bac1cc;
 }
 
-.order_b input:active{
+.sort_by_form input:active{
 	background-color: #5f8287;
-}
-
-.tr{
-	font-size: 1.2vw;
-	border-radius: 10px;
-	height: auto;
-	width: 40%;
-	left:10%;
-	top: 13%;
-	margin-bottom: 2%;
-	position: absolute;
-	background-color: #4f4e4d;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	transition: 0.1s ease;
-}
-
-.tr span{
-	padding: 0.5vh;
-}
-
-.tr div{
-	cursor: pointer;
-	display: flex;
-	position: relative;
-	height: auto;
-	width: 100%;
 }
 
 #confirm_delete_button{
 	display:none;
 	opacity: 0.7;
 }
-
 
 #confirm_delete_button:hover{
 	background-color: red;

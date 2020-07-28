@@ -8,7 +8,7 @@
   <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Bitter|Mansalva|Oswald&display=swap" rel="stylesheet">
-  <script type="text/javascript" src="{{ url_for('static', filename='jquery/jq.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jq.js') }}"></script>
   <script type="text/javascript">
   var focus_ind_1=0, focus_ind_2=0, focus_ind_3=0;
   var activity_of_action_1=0, activity_of_action_2=0, activity_of_action_3=0;
@@ -392,7 +392,7 @@
           <hr>
           <div class="sections">
             <a href=""><span style="color:#000;">Actions</span></a>
-            <a href={{ url_for('look') }}><span>Look</span></a>
+            <a href={{ url_for('show') }}><span>Show info</span></a>
             <a onclick="start_about(),close_feedback_field()" onmouseover="cursor_on_about_menu_up()" onmouseout="cursor_on_about_menu_down()"><span  style="white-space: nowrap; cursor: pointer; ">About us</span></a>
             <a onclick="start_help(),close_feedback_field()" onmouseover="cursor_on_help_menu_up()" onmouseout="cursor_on_help_menu_down()"><span style="cursor: pointer; ">Help</span></a>
           </div>

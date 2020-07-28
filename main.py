@@ -73,9 +73,9 @@ def stopwatch():
     return render_template('stopwatch.html')
 
 
-@app.route('/look', methods=['GET', 'POST'])
-@app.route('/look/<sorted_by>', methods=['GET', 'POST'])
-def look(sorted_by=None):
+@app.route('/show', methods=['GET', 'POST'])
+@app.route('/show/<sorted_by>', methods=['GET', 'POST'])
+def show(sorted_by=None):
     form = ConfirmDeletingForm()
     all_exercises = crud.GetExerciseList()
     all_trainings = crud.GetTrainingList()
@@ -89,8 +89,8 @@ def look(sorted_by=None):
         all_exercises = crud.SortExercises(exercises=all_exercises)
     if form.is_submitted():
         crud.DeleteSelectedExercises()
-        return redirect(url_for('look'))
-    return render_template('look.html', all_exercises=all_exercises,
+        return redirect(url_for('show'))
+    return render_template('show.html', all_exercises=all_exercises,
                                         all_trainings=all_trainings,
                                         form=form,
                                         sorted_by=sorted_by)
