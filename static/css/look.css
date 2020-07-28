@@ -3,21 +3,8 @@
 	padding: 0px;
 }
 
-.header{
-	box-shadow: 0px 0px 4px #000;
-	z-index: 100;
-	position: fixed;
-	width: 100%;
-	height: 9.8%;
-	background-color: #1b1f26;
-	display: flex;
-	flex-direction: row;
-	justify-content: left;
-	align-items: center;
-	transition: 0.1s ease;
-}
 
-.header input
+.container-flued input
 {
 	font-size: 2vh;
 	padding: 0.5vh;
@@ -34,7 +21,7 @@
 }
 
 
-.header input:focus
+.container-flued input:focus
 {
 	font-size: 2vh;
 	color: #000;
@@ -49,7 +36,7 @@
 	transition: 0.2s ease;
 }
 
-.header span{
+.container-flued span{
 	color: #f0f0f0;
 	margin-left:1vh;
 	font-size: 2.2vh;
@@ -57,13 +44,13 @@
 }
 
 
-.header span:hover{
+.container-flued span:hover{
 	color: #bac1cc;
 	margin-left:1vh;
 	cursor: pointer;
 }
 
-.header span:active{
+.container-flued span:active{
 	color: #5f8287;
 	margin-left:1vh;
 	cursor: pointer;
