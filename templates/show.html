@@ -36,13 +36,19 @@
 			  <div id="accordion">
 				{% for training in all_trainings %}
 			    <div class="card">
+						<a class="card-link" data-toggle="collapse" href="#collapse+{{all_trainings.index(training) | string}}">
 			      <div class="card-header">
-			        <a class="card-link" data-toggle="collapse" href="#collapse+{{all_trainings.index(training) | string}}">
-			          <span>comment: </span>{{ training['comment'] }}
-								<span style="padding-left:15px">weight: {{ training['weight'] }}</span>
+								{% if not training['comment'] == "" %}
+			          	<span>comment: </span>{{ training['comment'] }}
+								{% else %}
+									<span>no comment</span>
+								{% endif %}
+								{% if not training['weight'] == -1 %}
+									<span style="padding-left:15px">weight: {{ training['weight'] }}</span>
+								{% endif %}
 								<span class="float-right">date: {{ training['date'] }}</span>
-			        </a>
 			      </div>
+						</a>
 			      <div id="collapse+{{all_trainings.index(training) | string}}" class="collapse show" data-parent="#accordion">
 			        <div class="card-body">
 								<ul class="list-group">
