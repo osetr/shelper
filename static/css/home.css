@@ -66,14 +66,10 @@ header a{
 	margin-left:70%;
 }
 
-
-
-
 header a:hover{
 	background-color: #000;
   	transition: 0.5s ease;
 }
-
 
 .shelper_link{
 	width: 30vh;
@@ -87,7 +83,6 @@ header a:hover{
 	margin-left:0%;
 	color:#ffcc00;
 }
-
 
 .exit_link{
 	background-color:#272727;
@@ -132,7 +127,6 @@ footer:hover{
 	min-height: 100%;
 }
 
-
 .footer_right{
 	float:right;
   margin:0.3%;
@@ -144,7 +138,6 @@ footer:hover{
   margin-top: 0.6%;
   margin-left:0.4%
 }
-
 
 .main_menu hr{
 	height: 0px;
@@ -169,13 +162,11 @@ footer:hover{
 	text-decoration: none;
 }
 
-
 .sections span:hover{
 	text-decoration: none;
 	transition: 0.4s ease;
 	color:#000;
 }
-
 
 .actions{
 	position: relative;
@@ -191,8 +182,6 @@ footer:hover{
 	-ms-filter: grayscale(100%);
 	-o-filter: grayscale(100%);
 }
-
-
 
 .actions:hover{
 	position: relative;
@@ -210,9 +199,6 @@ footer:hover{
 	-ms-filter: grayscale(0%);
 	-o-filter: grayscale(0%);
 }
-
-
-
 
 input{
   padding: 4px;
@@ -241,7 +227,6 @@ input[type="submit"]:focus{
   border-color: #000;
 }
 
-
 input[type="submit"]:hover{
   padding: 4px;
   margin: 5px;
@@ -264,7 +249,6 @@ input[type="submit"]:active{
   transition: 0.15s ease;
 }
 
-
 input[type="reset"]:focus{
   padding: 4px;
   margin: 5px;
@@ -273,7 +257,6 @@ input[type="reset"]:focus{
   outline: 0;
   border-color: #000;
 }
-
 
 input[type="reset"]:hover{
   padding: 4px;
@@ -297,7 +280,6 @@ input[type="reset"]:active{
   transition: 0.15s ease;
 }
 
-
 input[type="reset"]{
   font-size: 1vw;
 }
@@ -315,7 +297,6 @@ input[type="submit"]{
 	center;
 	align-items: flex-start;
 }
-
 
 .internal_block_for_dark_background
 {
@@ -336,7 +317,6 @@ input[type="submit"]{
 {
 	background-color: #000;
 }
-
 
 .internal_block_for_dark_background div
 {
@@ -370,7 +350,6 @@ input[type="submit"]{
 	border-width: 0.5px;
 	opacity: 0.1;
 }
-
 
 block hr
 {
@@ -415,12 +394,10 @@ block hr
 	right: 14%;
 }
 
-
 .exercise_menu input[type="number"]:focus{
 	width: 23%;
 	background-color: #fff;
 }
-
 
 .exercise_menu input[type="button"], .back{
 	color: #fff;
@@ -431,10 +408,6 @@ block hr
 	top: 46%;
 	right: 4%;
 }
-
-
-
-
 
 #chosen{
 	color: #fff;
@@ -449,6 +422,7 @@ block hr
 .exercise_menu input[type="button"]:hover, .back:hover{
 	background-color: #101010;
 }
+
 .exercise_menu input[type="button"]:active, .back:active{
 	background-color: #000;
 }
@@ -464,7 +438,6 @@ block hr
 	background-color: red;
 	opacity: 0.2
 }
-
 
 .feedback
 {
@@ -499,209 +472,6 @@ block hr
 {
 	position: absolute;
 	background-color: #303030;
-}
-
-@media (max-width: 1700px)
-{
-	header a{
-	font-size: 2.4vh;
-	width: 15%;
-	}
-	.shelper_link{
-	width: 25vh;
-	}
-	.shelper_link:hover{
-	width: 25vh;
-	}
-	.regist_link{
-	margin-left:50%;
-	}
-}
-
-
-@media (orientation: portrait)
-{
-	.spe{
-		display: none;
-	}
-	.nice
-	{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	}
-		.special{
-	z-index: -2;
-	position: absolute;
-	margin-top: 0.4%;
-	}
-
-	.actions{
-	position: relative;
-	z-index: 1;
-	width: 85%;
-	box-shadow: 7px 7px 10px #000;
-	font-size: 3.4vw;
-	margin-top: 0%;
-	margin-bottom: 10%;
-	transition: 0.3s ease;
-	-webkit-filter: grayscale(100%);
-	-moz-filter: grayscale(100%);
-	-ms-filter: grayscale(100%);
-	-o-filter: grayscale(100%);
-	}
-
-
-
-	.actions:hover{
-	position: relative;
-	width: 85%;
-	z-index: 1;
-	margin-top: 0%;
-	margin-bottom: 10%;
-	font-size: 3.4vw;
-	/*background-color: #f4f4f4;*/
-
-	transition: 0.3s ease;
-	box-shadow: 7px 7px 10px #000;
-	-webkit-filter: grayscale(0%);
-	-moz-filter: grayscale(0%);
-	-ms-filter: grayscale(0%);
-	-o-filter: grayscale(0%);
-	}
-
-	input{
-		font-size: 3vh;
-	}
-	input:hover{
-		font-size: 3vh;
-	}
-	input:focus{
-		font-size: 3vh;
-	}
-	input:active{
-		font-size: 3vh;
-	}
-	input[type="reset"]{
-  		font-size: 4vh;
-	}
-
-	input[type="submit"]{
-  		font-size: 4vh;
-	}
-	input[type="reset"]:hover{
-  		font-size: 4vh;
-	}
-
-	input[type="submit"]:hover{
-  		font-size: 4vh;
-	}
-	input[type="reset"]:active{
-  		font-size: 4vh;
-	}
-
-	input[type="submit"]:active{
-  		font-size: 4vh;
-	}
-	input[type="reset"]:focus{
-  		font-size: 4vh;
-	}
-
-	input[type="submit"]:focus{
-  		font-size: 4vh;
-	}
-
-	header a{
-	font-size: 4vh;
-	display: block;
-	width: 23%;
-	text-align: center;
-	padding: 1.2%;
-	float:right;
-	color:#f7f7f7;
-	transition: 0.2s ease;
-	text-decoration: none;
-}
-
-.regist_link{
-	margin-left:0%;
-}
-
-
-.shelper_link{
-	width: 30vh;
-	text-align: right;
-	margin-left:0%;
-}
-
-.shelper_link:hover{
-	width: 30vh;
-	text-align: right;
-	margin-left:0%;
-	color:#ffcc00;
-}
-
-.main_menu center{
-	color:red;
-	font-size: 5vh;
-}
-
-
-}
-
-
-@media (max-width: 670px) and (orientation: portrait)
-{
-	header{
-  	width: 100%;
-	height: 8%;
-	background-color: #272727;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	box-shadow: 0px 0px 40px #000;
-	transition: 1s ease;
-	}
-	header a{
-	z-index: 120;
-	opacity: 0.9;
-	font-size: 4vh;
-	display: block;
-	width: 100%;
-	text-align: center;
-	padding: 1.2%;
-	float:right;
-	color:#f7f7f7;
-	transition: 0.2s ease;
-	text-decoration: none;
-}
-.shelper_link{
-	width: 100%;
-	text-align: center;
-	margin-left:0%;
-}
-
-.shelper_link:hover{
-	width: 100%;
-	text-align: center;
-	margin-left:0%;
-	color:#ffcc00;
-}
-.shelper_title_icon{
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-	filter: blur(1.4px);
-	height: 70%;
-	opacity: 0.3;
-}
-
-.soc_networks
-{
-	display: none;
-}
-
 }
 
 .exercise_category

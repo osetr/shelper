@@ -4,6 +4,7 @@ from app import app, db
 from form import SignUpForm, SignInForm, NewExForm, NewTrainForm, FeedbackForm, ConfirmDeletingForm
 import crud
 import pymysql
+
 pymysql.install_as_MySQLdb()
 
 
