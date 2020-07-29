@@ -31,6 +31,13 @@ header{
 	transition: 1s ease;
 }
 
+.easy_anim{
+	width: 10%;
+  margin-top: 2%;
+  margin-left: 2%;
+  transition: 0.1s ease;
+}
+
 .easy_anim:hover{
 	transform: translate(0,-2px);
 }
@@ -128,10 +135,14 @@ footer:hover{
 
 .footer_right{
 	float:right;
+  margin:0.3%;
+  height: 80%;
 }
 
 .footer_left{
 	float:left;
+  margin-top: 0.6%;
+  margin-left:0.4%
 }
 
 
@@ -308,6 +319,7 @@ input[type="submit"]{
 
 .internal_block_for_dark_background
 {
+  font-size: 20px;
 	position: absolute;
 	top: 5%;
 	height: 40%;
@@ -391,7 +403,7 @@ block hr
 }​
 
 .exercise_menu{
-
+  font-size: 180px;
 }
 
 .exercise_menu input[type="number"]{
@@ -690,4 +702,96 @@ block hr
 	display: none;
 }
 
+}
+
+.exercise_category
+{
+  padding: 4px;
+  margin: 5px;
+  font-size: 1vw;
+  border-radius: 5px;
+  outline: 0;
+  transition: 0.15s ease;
+  width: 30%;
+  background-color: #fff;
+  size: '3';
+}
+
+.action_caption{
+  padding-left: 2%;
+  position: absolute;
+  margin-top: 100%;
+  transition: 0.1s ease;
+}
+
+.action_img{
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+}
+
+.feedback_submit{
+  cursor: pointer;
+  position: absolute;
+  top: 81%;
+  font-size: 1vw;
+  right: 3%;
+  background-color: #000;
+  color: #f0f0f0;
+  border-width: 1px;
+}
+
+.feedback_field_inside{
+  padding: 3%;
+  position: absolute;
+  height: 130%;
+  width: 15%;
+  background-color: #000;
+  opacity: 0.6;
+  top: 105%;
+  z-index: 100000;
+  border-radius: 5px;
+}
+
+#fixing_field{
+  font-size: 20px;
+	position: absolute;
+	overflow-y: scroll;
+	overflow-x: hidden;
+  top: 55%;
+  height: 38%;
+  background-color: #303030;
+  opacity: 0.2;
+  width: 90%;
+  left: 5%;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.menu{
+  position: fixed;
+  height: 30%;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 15%;
+  background-color: #000;
+  opacity: 0.9;
+  z-index: 100;
+  border: 1px solid #642844;
+  border-radius: 10px;
+}
+
+#external_exercise_block{
+  position: fixed;
+  height: 80%;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 5%;
+  background-color: #000;
+  opacity: 0.9;
+  z-index: 100;
+  border: 1px solid #642844;
+  border-radius: 10px;
 }

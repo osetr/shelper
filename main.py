@@ -76,6 +76,10 @@ def stopwatch():
 @app.route('/show', methods=['GET', 'POST'])
 @app.route('/show/<sorted_by>', methods=['GET', 'POST'])
 def show(sorted_by=None):
+    try:
+        crud.CheckAccessToken()
+    except:
+        return "soory"
     form = ConfirmDeletingForm()
     all_exercises = crud.GetExerciseList()
     all_trainings = crud.GetTrainingList()

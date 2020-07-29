@@ -16,7 +16,7 @@
 	</head>
 	<body>
 		<div class="container-flued">
-			<div class="navbar navbar-expand-sm navbar-dark" style="background-color: #272727; height:80px;">
+			<div class="navbar navbar-expand-sm navbar-dark" style="background-color: #272727; height:80px; box-shadow: 0px 0px 40px #000;">
 				<span onclick="turn_on_trainings(),turn_off_empty(),turn_off_exercises()">Show trainings</span>
 				<span onclick="turn_off_empty(),turn_on_exercises(),turn_off_trainings()">Show exercises</span>
 				<span><a href="{{ url_for('main') }}">Back to home page</a></span>
@@ -25,7 +25,7 @@
 
 		<div id="empty">
 			<div class="empty">
-				<span style="font-size: 3vh;">Fill in what you want to check</span>
+				<span style="font-size: 3vh;">Click what you want to see</span>
 			</div>
 		</div>
 
@@ -38,7 +38,9 @@
 			    <div class="card">
 			      <div class="card-header">
 			        <a class="card-link" data-toggle="collapse" href="#collapse+{{all_trainings.index(training) | string}}">
-			          <span>comment: </span>{{ training['comment'] }}<span style="padding-left:15px">weight: {{ training['weight'] }}</span><span class="float-right">date: {{ training['date'] }}</span>
+			          <span>comment: </span>{{ training['comment'] }}
+								<span style="padding-left:15px">weight: {{ training['weight'] }}</span>
+								<span class="float-right">date: {{ training['date'] }}</span>
 			        </a>
 			      </div>
 			      <div id="collapse+{{all_trainings.index(training) | string}}" class="collapse show" data-parent="#accordion">
@@ -82,7 +84,11 @@
 				{% for exercise in all_exercises %}
 				 <div style="font-size: 16px;">
 						<script type="text/javascript">
-							document.write("<div onclick='delete_ex(" + j + ")' id='div_" + j + "'><span id='span_" + j + "'>{{ exercise['exercise_name'] }}</span><span style='position:absolute; right:20vw;'>{{ exercise['muscule_type'] }}</span><span style='position:absolute; right:0;'>{{ exercise['date_time'] }}</span></div>");
+							document.write("<div onclick='delete_ex(" + j + ")' id='div_" +
+							j + "'><span id='span_" +
+							j + "'>{{ exercise['exercise_name'] }}</span>" +
+							"<span style='position:absolute; right:20vw;'>{{ exercise['muscule_type'] }}</span>" +
+							"<span style='position:absolute; right:0;'>{{ exercise['date_time'] }}</span></div>");
 							j++;
 						</script>
 					</div>
