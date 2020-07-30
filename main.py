@@ -1,14 +1,22 @@
 from flask import Flask
-from flask import render_template, session, redirect, url_for, request, make_response
+from flask import (
+render_template, session, redirect,
+url_for, request, make_response
+)
 from app import app, db
-from form import SignUpForm, SignInForm, NewExForm, NewTrainForm, FeedbackForm, ConfirmDeletingForm
+from form import (
+SignUpForm, SignInForm,
+NewExForm, NewTrainForm,
+FeedbackForm, ConfirmDeletingForm
+)
 import crud
 import pymysql
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     jwt_refresh_token_required, create_refresh_token,
-    get_jwt_identity
+    get_jwt_identity, get_raw_jwt
 )
+from app import blacklist
 
 pymysql.install_as_MySQLdb()
 
@@ -50,9 +58,30 @@ def auth():
 
 
 @app.route('/home', methods=['GET', 'POST'])
+@app.route('/home/<user_exit>', methods=['GET', 'POST'])
 @jwt_required
-def main():
-    return {"cur_user": get_jwt_identity()}
+def main(user_exit=0):
+    form_ex = NewExForm()
+    form_train = NewTrainForm()
+    form_feedback = FeedbackForm()
+    if user_exit:
+        jti = get_raw_jwt()['jti']
+        blacklist.add(jti)
+        return redirect(url_for('index'))
+    if form_ex.name.data and form_ex.is_submitted():
+        crud.AddExerciseToDataBase()
+        return redirect(url_for('main'))
+    if form_feedback.text.data and form_feedback.is_submitted():
+        crud.AddFeedbackToDataBase()
+        return redirect(url_for('main'))
+    if form_train.date.data and form_train.is_submitted():
+        crud.AddTrainingToDataBase()
+        return redirect(url_for('main'))
+    ex_list = crud.GetExerciseList()
+    return render_template('home.html', form_feedback=form_feedback,
+                                        form_ex=form_ex,
+                                        form_train=form_train,
+                                        ex_list=ex_list)
 
 
 @app.route('/stopwatch', methods=['GET', 'POST'])
@@ -62,11 +91,8 @@ def stopwatch():
 
 @app.route('/show', methods=['GET', 'POST'])
 @app.route('/show/<sorted_by>', methods=['GET', 'POST'])
+@jwt_required
 def show(sorted_by=None):
-    try:
-        crud.CheckAccessToken()
-    except:
-        return "soory"
     form = ConfirmDeletingForm()
     all_exercises = crud.GetExerciseList()
     all_trainings = crud.GetTrainingList()
