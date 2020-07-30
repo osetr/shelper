@@ -6,6 +6,13 @@ import jwt
 from jwt import PyJWTError
 from datetime import datetime, timedelta
 import uuid
+from app import jwt_man
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    jwt_refresh_token_required, create_refresh_token,
+    get_jwt_identity, set_access_cookies,
+    set_refresh_cookies, unset_jwt_cookies
+)
 
 SECRET_KEY = 'asfdgfg'
 ALGORITHM = 'HS256'
@@ -84,13 +91,10 @@ def UserFilledInCorrectData():
 
 def GetAccessToken():
     user_id = User.query.filter_by(login=request.form['name']).first().id
-    to_encode = {'sub':request.form['name'],
-                 'user_id': user_id,
-                 'User-Agent':request.headers.get('User-Agent')}
-    expire = datetime.utcnow() + timedelta(minutes=100)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    access_token = create_access_token(identity=user_id)
+    resp = jsonify({'login': True})
+    set_access_cookies(resp, access_token)
+    return str(access_token)
 
 def CheckAccessToken():
     token = request.cookies.get('access_token')

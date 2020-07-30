@@ -4,6 +4,11 @@ from app import app, db
 from form import SignUpForm, SignInForm, NewExForm, NewTrainForm, FeedbackForm, ConfirmDeletingForm
 import crud
 import pymysql
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    jwt_refresh_token_required, create_refresh_token,
+    get_jwt_identity
+)
 
 pymysql.install_as_MySQLdb()
 
@@ -22,7 +27,7 @@ def index():
     if crud.FormIsValid(form):
         if crud.UserExists() and crud.UserFilledInCorrectData():
             response = make_response(redirect(url_for('main')))
-            response.set_cookie('access_token', crud.GetAccessToken())
+            response.set_cookie('access_token_cookie', crud.GetAccessToken())
             return response
         else:
              errors = {'LoginError': ["Failed login or password."]}
@@ -45,28 +50,9 @@ def auth():
 
 
 @app.route('/home', methods=['GET', 'POST'])
+@jwt_required
 def main():
-    try:
-        crud.CheckAccessToken()
-    except:
-        return "soory"
-    form_ex = NewExForm()
-    form_train = NewTrainForm()
-    form_feedback = FeedbackForm()
-    if form_ex.name.data and form_ex.is_submitted():
-        crud.AddExerciseToDataBase()
-        return redirect(url_for('main'))
-    if form_feedback.text.data and form_feedback.is_submitted():
-        crud.AddFeedbackToDataBase()
-        return redirect(url_for('main'))
-    if form_train.date.data and form_train.is_submitted():
-        crud.AddTrainingToDataBase()
-        return redirect(url_for('main'))
-    ex_list = crud.GetExerciseList()
-    return render_template('home.html', form_feedback=form_feedback,
-                                        form_ex=form_ex,
-                                        form_train=form_train,
-                                        ex_list=ex_list)
+    return {"cur_user": get_jwt_identity()}
 
 
 @app.route('/stopwatch', methods=['GET', 'POST'])
