@@ -16,17 +16,25 @@ from flask_jwt_extended import (
     jwt_refresh_token_required, create_refresh_token,
     get_jwt_identity, get_raw_jwt
 )
-from app import blacklist
+from app import jwt, blacklist
+from datetime import datetime, timedelta
 
 pymysql.install_as_MySQLdb()
-
 
 if __name__ ==' __main__':
     app.run()
 
-
 db.create_all()
 
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    return jti in blacklist
+
+@jwt.expired_token_loader
+def my_expired_token_callback(expired_token):
+    return redirect(url_for('refresh'))
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -36,6 +44,7 @@ def index():
         if crud.UserExists() and crud.UserFilledInCorrectData():
             response = make_response(redirect(url_for('main')))
             response.set_cookie('access_token_cookie', crud.GetAccessToken())
+            response.set_cookie('refresh_token_cookie', crud.GetRefreshToken())
             return response
         else:
              errors = {'LoginError': ["Failed login or password."]}
@@ -60,7 +69,7 @@ def auth():
 @app.route('/home', methods=['GET', 'POST'])
 @app.route('/home/<user_exit>', methods=['GET', 'POST'])
 @jwt_required
-def main(user_exit=0):
+def main(user_exit=False):
     form_ex = NewExForm()
     form_train = NewTrainForm()
     form_feedback = FeedbackForm()
@@ -111,3 +120,16 @@ def show(sorted_by=None):
                                         all_trainings=all_trainings,
                                         form=form,
                                         sorted_by=sorted_by)
+
+@app.route('/refresh', methods=['GET', 'POST'])
+@jwt_refresh_token_required
+def refresh():
+    user_id = get_jwt_identity()
+    access_token = create_access_token(
+    identity=user_id,
+    expires_delta=timedelta(seconds=5),
+    headers={'User-Agent': request.headers['User-Agent']}
+    )
+    response = make_response(redirect(url_for('main')))
+    response.set_cookie('access_token_cookie', access_token)
+    return response

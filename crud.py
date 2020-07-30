@@ -9,17 +9,8 @@ from flask_jwt_extended import (
     jwt_refresh_token_required, create_refresh_token,
     get_jwt_identity
 )
-from app import jwt, blacklist
-
-SECRET_KEY = 'asfdgfg'
-ALGORITHM = 'HS256'
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-@jwt.token_in_blacklist_loader
-def check_if_token_in_blacklist(decrypted_token):
-    jti = decrypted_token['jti']
-    return jti in blacklist
 
 def FormIsValid(form):
     return form.validate() and form.is_submitted()
@@ -89,13 +80,21 @@ def UserFilledInCorrectData():
 
 def GetAccessToken():
     user_id = User.query.filter_by(login=request.form['name']).first().id
-    user_id = User.query.filter_by(login=request.form['name']).first().id
     access_token = create_access_token(
+    identity=user_id,
+    expires_delta=timedelta(seconds=5),
+    headers={'User-Agent': request.headers['User-Agent']}
+    )
+    return access_token
+
+def GetRefreshToken():
+    user_id = get_jwt_identity()
+    refresh_token = create_refresh_token(
     identity=user_id,
     expires_delta=timedelta(minutes=10),
     headers={'User-Agent': request.headers['User-Agent']}
     )
-    return access_token
+    return refresh_token
 
 def CheckAccessToken():
     token = request.cookies.get('access_token')
