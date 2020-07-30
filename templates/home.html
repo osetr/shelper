@@ -91,6 +91,7 @@
           <div id="feedback_field" style="display: none;">
             <div class="feedback_field_inside">
               <form method="POST">
+                <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
                 {{ form_feedback.text(class="feedback") }}
                 <img  onmouseover="light_up_cross()"
                       onmouseout="light_out_cross()"
@@ -134,6 +135,7 @@
           <img class="action_img" src="{{ url_for('static', filename='img/first_action_image.png') }}">
           <p id="caption1" class="action_caption">New Training</p>
           <form  method="POST" id="form_action_1" style="position: absolute; z-index: -1;">
+            <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
             {{ form_train.comment(autocomplete="off", onfocus="focus_on(1)",
                                                       onblur="focus_off(1),move_action_back(1)")}}
             {{ form_train.comment.label }}<br>
@@ -160,6 +162,7 @@
           <p id="caption2" class="action_caption">New Exercise
           <span style="color: red;"><?=$mistake?></span></p>
           <form  method="POST" id="form_action_2" style="position: absolute; z-index: -1;">
+            <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
             {{ form_ex.csrf_token }}
             {{ form_ex.name.label }}<br>
             {{ form_ex.name(autocomplete='off', value='', onfocus='focus_on(2)',

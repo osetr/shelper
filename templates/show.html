@@ -74,6 +74,7 @@
 				<span>Sort by</span><br>
 				<a href="{{ url_for('show', sorted_by='by_exname') }}"><input type="button" name="type_muscl" value="exercise name"></a><br>
 				<a href="{{ url_for('show', sorted_by='by_datetime') }}"><input type="button" name="type_muscl" value="date&time"></a><br>
+				<input name="csrf_token" type="hidden" value="{{ csrf_token }}">
 				<input type="button" style="background-color: red; opacity: 0.7;" value="click for deleting">
 				{{ form.exercise_list_to_deleting(value="") }}
 				{{ form.submit() }}

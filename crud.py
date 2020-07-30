@@ -78,8 +78,11 @@ def UserFilledInCorrectData():
     hashed_password = User.query.filter_by(login=login).first().hashed_password
     return pwd_context.verify(password, hashed_password)
 
-def GetAccessToken():
-    user_id = User.query.filter_by(login=request.form['name']).first().id
+def GetAccessToken(id_already_authorized=False):
+    if not id_already_authorized:
+        user_id = User.query.filter_by(login=request.form['name']).first().id
+    else:
+        user_id = get_jwt_identity()
     access_token = create_access_token(
     identity=user_id,
     expires_delta=timedelta(minutes=5),
@@ -91,7 +94,7 @@ def GetRefreshToken():
     user_id = get_jwt_identity()
     refresh_token = create_refresh_token(
     identity=user_id,
-    expires_delta=timedelta(minutes=1800),
+    expires_delta=timedelta(minutes=1000),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     return refresh_token

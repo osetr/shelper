@@ -45,8 +45,10 @@ def index():
     if crud.FormIsValid(form):
         if crud.UserExists() and crud.UserFilledInCorrectData():
             response = make_response(redirect(url_for('main')))
-            response.set_cookie('access_token_cookie', crud.GetAccessToken())
-            response.set_cookie('refresh_token_cookie', crud.GetRefreshToken())
+            response.set_cookie(key='access_token_cookie',
+                                value=crud.GetAccessToken())
+            response.set_cookie(key='refresh_token_cookie',
+                                value=crud.GetRefreshToken())
             return response
         else:
              errors = {'LoginError': ["Failed login or password."]}
@@ -92,7 +94,8 @@ def main(user_exit=False):
     return render_template('home.html', form_feedback=form_feedback,
                                         form_ex=form_ex,
                                         form_train=form_train,
-                                        ex_list=ex_list)
+                                        ex_list=ex_list,
+                                        csrf_token=(get_raw_jwt() or {}).get("csrf"))
 
 
 @app.route('/stopwatch', methods=['GET', 'POST'])
@@ -121,17 +124,13 @@ def show(sorted_by=None):
     return render_template('show.html', all_exercises=all_exercises,
                                         all_trainings=all_trainings,
                                         form=form,
-                                        sorted_by=sorted_by)
+                                        sorted_by=sorted_by,
+                                        csrf_token=(get_raw_jwt() or {}).get("csrf"))
 
 @app.route('/refresh', methods=['GET', 'POST'])
 @jwt_refresh_token_required
 def refresh():
-    user_id = get_jwt_identity()
-    access_token = create_access_token(
-    identity=user_id,
-    expires_delta=timedelta(minutes=5),
-    headers={'User-Agent': request.headers['User-Agent']}
-    )
     response = make_response(redirect(url_for('main')))
-    response.set_cookie('access_token_cookie', access_token)
+    response.set_cookie(key='access_token_cookie',
+                        value=crud.GetAccessToken(id_already_authorized=True))
     return response
