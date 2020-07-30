@@ -34,7 +34,9 @@ def check_if_token_in_blacklist(decrypted_token):
 
 @jwt.expired_token_loader
 def my_expired_token_callback(expired_token):
-    return redirect(url_for('refresh'))
+    if expired_token['type'] == 'access':
+        return redirect(url_for('refresh'))
+    return redirect(url_for('index'))
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -127,7 +129,7 @@ def refresh():
     user_id = get_jwt_identity()
     access_token = create_access_token(
     identity=user_id,
-    expires_delta=timedelta(seconds=5),
+    expires_delta=timedelta(minutes=5),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     response = make_response(redirect(url_for('main')))

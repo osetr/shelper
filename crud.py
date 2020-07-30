@@ -82,7 +82,7 @@ def GetAccessToken():
     user_id = User.query.filter_by(login=request.form['name']).first().id
     access_token = create_access_token(
     identity=user_id,
-    expires_delta=timedelta(seconds=5),
+    expires_delta=timedelta(minutes=5),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     return access_token
@@ -91,7 +91,7 @@ def GetRefreshToken():
     user_id = get_jwt_identity()
     refresh_token = create_refresh_token(
     identity=user_id,
-    expires_delta=timedelta(minutes=10),
+    expires_delta=timedelta(minutes=1800),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     return refresh_token
