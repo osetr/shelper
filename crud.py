@@ -85,7 +85,7 @@ def GetAccessToken(id_already_authorized=False):
         user_id = get_jwt_identity()
     access_token = create_access_token(
     identity=user_id,
-    expires_delta=timedelta(minutes=5),
+    expires_delta=timedelta(seconds=5),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     return access_token

@@ -91,12 +91,14 @@ def main(user_exit=False):
         crud.AddTrainingToDataBase()
         return redirect(url_for('main'))
     ex_list = crud.GetExerciseList()
-    return render_template('home.html', form_feedback=form_feedback,
+    response = make_response(render_template('home.html', form_feedback=form_feedback,
                                         form_ex=form_ex,
                                         form_train=form_train,
                                         ex_list=ex_list,
-                                        csrf_token=(get_raw_jwt() or {}).get("csrf"))
-
+                                        csrf_token=(get_raw_jwt() or {}).get("csrf")))
+    response.set_cookie(key='current_page',
+                        value='main')
+    return response
 
 @app.route('/stopwatch', methods=['GET', 'POST'])
 def stopwatch():
@@ -121,16 +123,19 @@ def show(sorted_by=None):
     if form.is_submitted():
         crud.DeleteSelectedExercises()
         return redirect(url_for('show'))
-    return render_template('show.html', all_exercises=all_exercises,
+    response = make_response(render_template('show.html', all_exercises=all_exercises,
                                         all_trainings=all_trainings,
                                         form=form,
                                         sorted_by=sorted_by,
-                                        csrf_token=(get_raw_jwt() or {}).get("csrf"))
+                                        csrf_token=(get_raw_jwt() or {}).get("csrf")))
+    response.set_cookie(key='current_page',
+                        value='show')
+    return response
 
-@app.route('/refresh', methods=['GET', 'POST'])
+@app.route('/refresh', methods=['GET'])
 @jwt_refresh_token_required
 def refresh():
-    response = make_response(redirect(url_for('main')))
+    response = make_response(redirect(url_for(request.cookies.get('current_page'))))
     response.set_cookie(key='access_token_cookie',
                         value=crud.GetAccessToken(id_already_authorized=True))
     return response
