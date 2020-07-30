@@ -8,6 +8,7 @@ from flask_jwt_extended import (
     jwt_refresh_token_required, create_refresh_token,
     get_jwt_identity
 )
+import redis
 
 pymysql.install_as_MySQLdb()
 
@@ -21,8 +22,8 @@ app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_CSRF_CHECK_FORM'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
-app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-blacklist = set()
+revoked_store = redis.StrictRedis(host='localhost', port=6379, db=0,
+                                  decode_responses=True)

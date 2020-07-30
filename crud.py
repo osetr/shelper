@@ -85,7 +85,7 @@ def GetAccessToken(id_already_authorized=False):
         user_id = get_jwt_identity()
     access_token = create_access_token(
     identity=user_id,
-    expires_delta=timedelta(seconds=5),
+    expires_delta=timedelta(minutes=60),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     return access_token
@@ -94,7 +94,7 @@ def GetRefreshToken():
     user_id = get_jwt_identity()
     refresh_token = create_refresh_token(
     identity=user_id,
-    expires_delta=timedelta(minutes=1000),
+    expires_delta=timedelta(days=1),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     return refresh_token

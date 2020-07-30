@@ -14,9 +14,9 @@ import pymysql
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     jwt_refresh_token_required, create_refresh_token,
-    get_jwt_identity, get_raw_jwt
+    get_jwt_identity, get_raw_jwt, get_jti
 )
-from app import jwt, blacklist
+from app import jwt, revoked_store
 from datetime import datetime, timedelta
 
 pymysql.install_as_MySQLdb()
@@ -26,11 +26,17 @@ if __name__ ==' __main__':
 
 db.create_all()
 
+@jwt.revoked_token_loader
+def token_revoked():
+    return redirect(url_for('index'))
 
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
-    return jti in blacklist
+    entry = revoked_store.get(jti)
+    if entry == 'false':
+        return True
+    return False
 
 @jwt.expired_token_loader
 def my_expired_token_callback(expired_token):
@@ -78,8 +84,9 @@ def main(user_exit=False):
     form_train = NewTrainForm()
     form_feedback = FeedbackForm()
     if user_exit:
-        jti = get_raw_jwt()['jti']
-        blacklist.add(jti)
+        access_token = request.cookies.get('access_token_cookie')
+        access_jti = get_jti(encoded_token=access_token)
+        revoked_store.set(access_jti, 'false')
         return redirect(url_for('index'))
     if form_ex.name.data and form_ex.is_submitted():
         crud.AddExerciseToDataBase()
