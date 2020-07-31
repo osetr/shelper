@@ -1,5 +1,5 @@
 from model import User, Exercises, Trainings, Feedbacks
-from app import db
+from app import db, revoked_store
 from passlib.context import CryptContext
 from flask import session, request, jsonify
 from datetime import datetime, timedelta
@@ -7,7 +7,7 @@ import uuid
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     jwt_refresh_token_required, create_refresh_token,
-    get_jwt_identity
+    get_jwt_identity, get_jti
 )
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -85,7 +85,7 @@ def GetAccessToken(id_already_authorized=False):
         user_id = get_jwt_identity()
     access_token = create_access_token(
     identity=user_id,
-    expires_delta=timedelta(minutes=60),
+    expires_delta=timedelta(minutes=180),
     headers={'User-Agent': request.headers['User-Agent']}
     )
     return access_token
@@ -150,3 +150,15 @@ def SortExercises(exercises, by="type_muscule"):
         return sorted(exercises_list, key = lambda ex: ex['date_time'])
     else:
         return sorted(exercises_list, key = lambda ex: ex['muscule_type'])
+
+def AddTokenToBlacklist():
+    access_token = request.cookies.get('access_token_cookie')
+    access_jti = get_jti(encoded_token=access_token)
+    revoked_store.set(access_jti, 'false')
+
+def CheckIfTokenInBlacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    entry = revoked_store.get(jti)
+    if entry == 'false':
+        return True
+    return False

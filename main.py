@@ -1,42 +1,30 @@
-from flask import Flask
 from flask import (
-render_template, session, redirect,
-url_for, request, make_response
-)
-from app import app, db
+   Flask, render_template, redirect,
+   url_for, request, make_response)
 from form import (
-SignUpForm, SignInForm,
-NewExForm, NewTrainForm,
-FeedbackForm, ConfirmDeletingForm
-)
-import crud
-import pymysql
+    SignUpForm, SignInForm,
+    NewExForm, NewTrainForm,
+    FeedbackForm, ConfirmDeletingForm)
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    jwt_refresh_token_required, create_refresh_token,
-    get_jwt_identity, get_raw_jwt, get_jti
-)
-from app import jwt, revoked_store
-from datetime import datetime, timedelta
+    jwt_required,
+    jwt_refresh_token_required,
+    get_raw_jwt)
+from app import app, jwt
+import crud
 
-pymysql.install_as_MySQLdb()
-
-if __name__ ==' __main__':
+if __name__ == ' __main__':
     app.run()
 
-db.create_all()
 
 @jwt.revoked_token_loader
 def token_revoked():
     return redirect(url_for('index'))
 
+
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
-    jti = decrypted_token['jti']
-    entry = revoked_store.get(jti)
-    if entry == 'false':
-        return True
-    return False
+    return crud.CheckIfTokenInBlacklist(decrypted_token)
+
 
 @jwt.expired_token_loader
 def my_expired_token_callback(expired_token):
@@ -44,9 +32,10 @@ def my_expired_token_callback(expired_token):
         return redirect(url_for('refresh'))
     return redirect(url_for('index'))
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    form=SignInForm()
+    form = SignInForm()
     errors = {}
     if crud.FormIsValid(form):
         if crud.UserExists() and crud.UserFilledInCorrectData():
@@ -57,13 +46,13 @@ def index():
                                 value=crud.GetRefreshToken())
             return response
         else:
-             errors = {'LoginError': ["Failed login or password."]}
+            errors = {'LoginError': ["Failed login or password."]}
     return render_template('index.html', form=form, errors=errors)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
 def auth():
-    form=SignUpForm()
+    form = SignUpForm()
     errors = {}
     if crud.FormIsValid(form):
         if crud.UserExists():
@@ -72,7 +61,7 @@ def auth():
             crud.AddUserToDataBase()
             return redirect(url_for('index'))
     elif not form.validate() and form.is_submitted():
-        return render_template('signup.html', form=form, errors=form.errors)
+        errors = form.errors
     return render_template('signup.html', form=form, errors=errors)
 
 
@@ -84,9 +73,7 @@ def main(user_exit=False):
     form_train = NewTrainForm()
     form_feedback = FeedbackForm()
     if user_exit:
-        access_token = request.cookies.get('access_token_cookie')
-        access_jti = get_jti(encoded_token=access_token)
-        revoked_store.set(access_jti, 'false')
+        crud.AddTokenToBlacklist()
         return redirect(url_for('index'))
     if form_ex.name.data and form_ex.is_submitted():
         crud.AddExerciseToDataBase()
@@ -98,14 +85,17 @@ def main(user_exit=False):
         crud.AddTrainingToDataBase()
         return redirect(url_for('main'))
     ex_list = crud.GetExerciseList()
-    response = make_response(render_template('home.html', form_feedback=form_feedback,
-                                        form_ex=form_ex,
-                                        form_train=form_train,
-                                        ex_list=ex_list,
-                                        csrf_token=(get_raw_jwt() or {}).get("csrf")))
+    csrf_token = (get_raw_jwt() or {}).get("csrf")
+    response = make_response(render_template('home.html',
+                                             form_feedback=form_feedback,
+                                             form_ex=form_ex,
+                                             form_train=form_train,
+                                             ex_list=ex_list,
+                                             csrf_token=csrf_token))
     response.set_cookie(key='current_page',
                         value='main')
     return response
+
 
 @app.route('/stopwatch', methods=['GET', 'POST'])
 def stopwatch():
@@ -116,33 +106,38 @@ def stopwatch():
 @app.route('/show/<sorted_by>', methods=['GET', 'POST'])
 @jwt_required
 def show(sorted_by=None):
-    form = ConfirmDeletingForm()
+    form_confirm_deleting = ConfirmDeletingForm()
     all_exercises = crud.GetExerciseList()
     all_trainings = crud.GetTrainingList()
-    if sorted_by=="by_exname":
-        all_exercises = crud.SortExercises(exercises=all_exercises,
-                                           by="exercise_name")
-    elif sorted_by=="by_datetime":
-        all_exercises = crud.SortExercises(exercises=all_exercises,
-                                           by="date_time")
+    if sorted_by == "by_exname":
+        all_exercises_sorted = crud.SortExercises(exercises=all_exercises,
+                                                  by="exercise_name")
+    elif sorted_by == "by_datetime":
+        all_exercises_sorted = crud.SortExercises(exercises=all_exercises,
+                                                  by="date_time")
     else:
-        all_exercises = crud.SortExercises(exercises=all_exercises)
-    if form.is_submitted():
+        all_exercises_sorted = crud.SortExercises(exercises=all_exercises)
+    if form_confirm_deleting.is_submitted():
         crud.DeleteSelectedExercises()
         return redirect(url_for('show'))
-    response = make_response(render_template('show.html', all_exercises=all_exercises,
-                                        all_trainings=all_trainings,
-                                        form=form,
-                                        sorted_by=sorted_by,
-                                        csrf_token=(get_raw_jwt() or {}).get("csrf")))
+    csrf_token = (get_raw_jwt() or {}).get("csrf")
+    response = make_response(render_template(
+                                'show.html',
+                                all_exercises_sorted=all_exercises_sorted,
+                                all_trainings=all_trainings,
+                                form=form_confirm_deleting,
+                                sorted_by=sorted_by,
+                                csrf_token=csrf_token))
     response.set_cookie(key='current_page',
                         value='show')
     return response
 
+
 @app.route('/refresh', methods=['GET'])
 @jwt_refresh_token_required
 def refresh():
-    response = make_response(redirect(url_for(request.cookies.get('current_page'))))
+    current_page = request.cookies.get('current_page')
+    response = make_response(redirect(url_for(current_page)))
     response.set_cookie(key='access_token_cookie',
                         value=crud.GetAccessToken(id_already_authorized=True))
     return response

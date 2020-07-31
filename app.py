@@ -24,6 +24,7 @@ app.config['JWT_CSRF_CHECK_FORM'] = True
 app.config['JWT_BLACKLIST_ENABLED'] = True
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
+db.create_all()
 migrate = Migrate(app, db)
 revoked_store = redis.StrictRedis(host='localhost', port=6379, db=0,
                                   decode_responses=True)
