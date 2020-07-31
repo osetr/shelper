@@ -22,7 +22,13 @@ services:
                 restart: always
                 depends_on:
                         - mysql
+                        - redis
                 ports:
                         - 5000:5000
                 network_mode: host
                 command: bash -c "flask run"
+        redis:
+                image: redis:alpine
+                ports:
+                        - 6379:6379
+                network_mode: host
