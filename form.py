@@ -8,6 +8,7 @@ from wtforms import validators
 from wtforms.validators import (
     Required, Email,
     Length, Regexp)
+from app import types_muscule
 
 
 class SignUpForm(FlaskForm):
@@ -39,7 +40,7 @@ class NewExForm(FlaskForm):
     name = StringField("Exercise's name", validators=[Required()])
     category = SelectField(
         "Type of muscles",
-        choices=['Other', 'Arms', 'Legs', 'Back', 'Chest', 'Neck', 'Abs'],
+        choices=types_muscule,
         validate_choice=False)
     submit = SubmitField("Save", id="new_exercise_submit")
 

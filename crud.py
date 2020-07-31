@@ -1,12 +1,11 @@
 from model import User, Exercises, Trainings, Feedbacks
-from app import db, revoked_store
+from app import db, revoked_store, types_muscule
 from passlib.context import CryptContext
-from flask import session, request, jsonify
+from flask import session, request
 from datetime import datetime, timedelta
 import uuid
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    jwt_refresh_token_required, create_refresh_token,
+    create_access_token, create_refresh_token,
     get_jwt_identity, get_jti
 )
 
@@ -115,13 +114,7 @@ def CheckAccessToken():
 def GetExerciseList():
     user_id = get_jwt_identity()
     dict = {}
-    for muscules_type in ['Other',
-                          'Arms',
-                          'Legs',
-                          'Back',
-                          'Chest',
-                          'Neck',
-                          'Abs']:
+    for muscules_type in types_muscule:
         list = [
             {'name': iter.exercise_name, 'date_time': iter.date_time}
             for iter in Exercises.query.filter_by(

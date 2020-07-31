@@ -1,24 +1,25 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-import pymysql
-from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    jwt_refresh_token_required, create_refresh_token,
-    get_jwt_identity
-)
+from flask_jwt_extended import JWTManager
 import redis
+import pymysql
+from dotenv import load_dotenv, find_dotenv
+import os
+
+load_dotenv(find_dotenv())
 
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "key"
+app.config["SECRET_KEY"] = os.getenv("SECRET_CSRF_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'mysql://root:uawesome120300@127.0.0.1:3306/shelper')
+    'mysql://root:' +
+    os.getenv("DB_PASSWORD") +
+    '@127.0.0.1:3306/shelper')
+app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['JWT_SECRET_KEY'] = 'super-secret'
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_CSRF_CHECK_FORM'] = True
@@ -29,3 +30,4 @@ db.create_all()
 migrate = Migrate(app, db)
 revoked_store = redis.StrictRedis(host='localhost', port=6379, db=0,
                                   decode_responses=True)
+types_muscule = ['Other', 'Arms', 'Legs', 'Back', 'Chest', 'Neck', 'Abs']
