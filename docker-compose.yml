@@ -1,9 +1,27 @@
 version: "3"   
 
+volumes:
+        mysql_db_data_container:
+
 services:
+        mysql:
+                image: mysql
+                command: --default-authentication-plugin=mysql_native_password
+                restart: always
+                environment:
+                        MYSQL_DATABASE: 'shelper'
+                        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+                ports:
+                        - 3306:3306
+                expose:
+                        - '3306'
+                volumes:
+                        - 'mysql_db_data_container:/var/lib/mysql'
         flask-app:
                 build: .
                 restart: always
+                depends_on:
+                        - mysql
                 ports:
                         - 5000:5000
                 network_mode: host

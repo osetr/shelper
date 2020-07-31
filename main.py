@@ -15,7 +15,12 @@ import crud
 if __name__ == ' __main__':
     app.run()
 
-db.create_all()
+try:
+    db.create_all()
+except:
+    os.system("kill 1")
+    os.system("echo 'ERROR: DB is not ready!!!'")
+    raise SystemExit(1)
 
 @jwt.revoked_token_loader
 def token_revoked():
