@@ -8,7 +8,7 @@ from wtforms import validators
 from wtforms.validators import (
     Required, Email,
     Length, Regexp)
-from app import types_muscule
+from app import types_muscle
 
 
 class SignUpForm(FlaskForm):
@@ -40,13 +40,13 @@ class NewExForm(FlaskForm):
     name = StringField("Exercise's name", validators=[Required()])
     category = SelectField(
         "Type of muscles",
-        choices=types_muscule,
+        choices=types_muscle,
         validate_choice=False)
     submit = SubmitField("Save", id="new_exercise_submit")
 
 
 class NewTrainForm(FlaskForm):
-    comment = StringField("Write down comment")
+    comment = StringField("Write down comment", validators=[Length(max=35)])
     date = StringField("Date", validators=[Required()])
     weight = IntegerField("Weight")
     training_list = HiddenField("List")

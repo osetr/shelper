@@ -9,12 +9,13 @@ from flask_jwt_extended import (
     jwt_required,
     jwt_refresh_token_required,
     get_raw_jwt)
-from app import app, jwt
+from app import app, jwt, db
 import crud
 
 if __name__ == ' __main__':
     app.run()
 
+db.create_all()
 
 @jwt.revoked_token_loader
 def token_revoked():

@@ -32,7 +32,7 @@ class Exercises(db.Model):
                         db.ForeignKey('clients.id'),
                         nullable=False)
     date_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    muscules_type = db.Column(db.String(20), nullable=False)
+    muscles_type = db.Column(db.String(20), nullable=False)
     exercise_name = db.Column(db.String(40), nullable=False)
 
     def __repr__(self):

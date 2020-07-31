@@ -46,7 +46,7 @@
 								{% if not training['weight'] == -1 %}
 									<span style="padding-left:15px">weight: {{ training['weight'] }}</span>
 								{% endif %}
-								<span class="float-right">date: {{ training['date'] }}</span>
+								<span class="float-right">{{ training['date'] }}</span>
 			      </div>
 						</a>
 			      <div id="collapse+{{all_trainings.index(training) | string}}" class="collapse show" data-parent="#accordion">
@@ -94,7 +94,7 @@
 							document.write("<div onclick='delete_ex(" + j + ")' id='div_" +
 							j + "'><span id='span_" +
 							j + "'>{{ exercise['exercise_name'] }}</span>" +
-							"<span style='position:absolute; right:20vw;'>{{ exercise['muscule_type'] }}</span>" +
+							"<span style='position:absolute; right:20vw;'>{{ exercise['muscle_type'] }}</span>" +
 							"<span style='position:absolute; right:0;'>{{ exercise['date_time'] }}</span></div>");
 							j++;
 						</script>

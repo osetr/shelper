@@ -1,5 +1,5 @@
 from model import User, Exercises, Trainings, Feedbacks
-from app import db, revoked_store, types_muscule
+from app import db, revoked_store, types_muscle
 from passlib.context import CryptContext
 from flask import session, request
 from datetime import datetime, timedelta
@@ -33,7 +33,7 @@ def AddExerciseToDataBase():
     category = request.form['category']
     user_id = get_jwt_identity()
     db.session.add(Exercises(user_id=user_id,
-                             muscules_type=category,
+                             muscles_type=category,
                              exercise_name=name))
     db.session.commit()
     return 0
@@ -114,14 +114,14 @@ def CheckAccessToken():
 def GetExerciseList():
     user_id = get_jwt_identity()
     dict = {}
-    for muscules_type in types_muscule:
+    for muscles_type in types_muscle:
         list = [
             {'name': iter.exercise_name, 'date_time': iter.date_time}
             for iter in Exercises.query.filter_by(
-                user_id=user_id, muscules_type=muscules_type
+                user_id=user_id, muscles_type=muscles_type
             ).all()
         ]
-        dict.update({muscules_type: list})
+        dict.update({muscles_type: list})
     return dict
 
 
@@ -159,11 +159,11 @@ def DeleteSelectedExercises():
     db.session.commit()
 
 
-def SortExercises(exercises, by="type_muscule"):
+def SortExercises(exercises, by="type_muscle"):
     exercises_list = []
-    for muscules_type in exercises:
-        for exercise in exercises[muscules_type]:
-            exercises_list.append({'muscule_type': muscules_type,
+    for muscles_type in exercises:
+        for exercise in exercises[muscles_type]:
+            exercises_list.append({'muscle_type': muscles_type,
                                    'exercise_name': exercise['name'],
                                    'date_time': exercise['date_time']})
     if by == 'exercise_name':
@@ -171,7 +171,7 @@ def SortExercises(exercises, by="type_muscule"):
     if by == 'date':
         return sorted(exercises_list, key=lambda ex: ex['date_time'])
     else:
-        return sorted(exercises_list, key=lambda ex: ex['muscule_type'])
+        return sorted(exercises_list, key=lambda ex: ex['muscle_type'])
 
 
 def AddTokenToBlacklist():
