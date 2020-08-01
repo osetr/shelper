@@ -1,0 +1,106 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>SHelper</title>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/jq.js') }}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+		<link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+		<link href="https://fonts.googleapis.com/css?family=Bitter|Mansalva|Oswald&display=swap" rel="stylesheet">
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/show.css') }}">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/show.js') }}"></script>
+	</head>
+	<body>
+		<div class="container-flued">
+			<div class="navbar navbar-expand-sm navbar-dark" style="background-color: #272727; height:80px; box-shadow: 0px 0px 40px #000;">
+				<span onclick="turn_on_trainings(),turn_off_empty(),turn_off_exercises()">Show trainings</span>
+				<span onclick="turn_off_empty(),turn_on_exercises(),turn_off_trainings()">Show exercises</span>
+				<span><a href="{{ url_for('main') }}">Back to home page</a></span>
+			</div>
+		</div>
+
+		<div id="empty">
+			<div class="empty">
+				<span style="font-size: 3vh;">Click what you want to see</span>
+			</div>
+		</div>
+
+		<div id="all_training" style="display: none;">
+			<div class="container" style="margin-top:2%; margin-bottom:3%">
+			  <h2>Trainings list</h2>
+			  <p><strong>Note:</strong> Some data can be absent because you didn't filled in some <strong>non required</strong> fields.</p>
+			  <div id="accordion">
+				{% for training in all_trainings %}
+			    <div class="card">
+						<a class="card-link" data-toggle="collapse" href="#collapse+{{all_trainings.index(training) | string}}">
+			      <div class="card-header">
+								{% if not training['comment'] == "" %}
+			          	<span>comment: </span>{{ training['comment'] }}
+								{% else %}
+									<span>no comment</span>
+								{% endif %}
+								{% if not training['weight'] == -1 %}
+									<span style="padding-left:15px">weight: {{ training['weight'] }}</span>
+								{% endif %}
+								<span class="float-right">{{ training['date'] }}</span>
+			      </div>
+						</a>
+			      <div id="collapse+{{all_trainings.index(training) | string}}" class="collapse show" data-parent="#accordion">
+			        <div class="card-body">
+								<ul class="list-group">
+									{% for single_exercise in training['exercises'] %}
+								  	{% if not single_exercise['exercise_weight'] == -1 %}
+											<li class="list-group-item">{{single_exercise['exercise_name']}} - {{single_exercise['exercise_weight']}}</li>
+										{% endif %}
+										{% if single_exercise['exercise_weight'] == -1 %}
+											<li class="list-group-item">{{single_exercise['exercise_name']}} - <span style="color:red">_</span></li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</div>
+			      </div>
+			    </div>
+				{% endfor %}
+			  </div>
+			</div>
+		</div>
+
+		<div  id="all_exercises" style="display: none;">
+			<form class="sort_by_form" method="POST">
+				<span>Sort by</span><br>
+				<a href="{{ url_for('show', sorted_by='by_exname') }}"><input type="button" name="type_muscl" value="exercise name"></a><br>
+				<a href="{{ url_for('show', sorted_by='by_datetime') }}"><input type="button" name="type_muscl" value="date&time"></a><br>
+				<input name="csrf_token" type="hidden" value="{{ csrf_token }}">
+				<input type="button" style="background-color: red; opacity: 0.7;" value="click for deleting">
+				{{ form.exercise_list_to_deleting(value="") }}
+				{{ form.submit() }}
+			</form>
+			{% if sorted_by %}
+				<script type="text/javascript">
+					turn_off_empty();
+					turn_on_exercises();
+					turn_off_trainings();
+				</script>
+			{% endif %}
+			<div class="all_exercises">
+				<span style="font-size: 26px;">All your exercises</span>
+				{% for exercise in all_exercises_sorted %}
+				 <div style="font-size: 16px;">
+						<script type="text/javascript">
+							document.write("<div onclick='delete_ex(" + j + ")' id='div_" +
+							j + "'><span id='span_" +
+							j + "'>{{ exercise['exercise_name'] }}</span>" +
+							"<span style='position:absolute; right:20vw;'>{{ exercise['muscle_type'] }}</span>" +
+							"<span style='position:absolute; right:0;'>{{ exercise['date_time'] }}</span></div>");
+							j++;
+						</script>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</body>
+	</html>

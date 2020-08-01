@@ -1,0 +1,139 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Oswald', sans-serif;
+}
+
+.container-flued input
+{
+	font-size: 2vh;
+	padding: 0.5vh;
+	border-radius: 5px;
+	border-width: 0px;
+	margin: 1vh;
+	margin-left: 0.5vh;
+	background-color: #494d52;
+	outline: 0;
+	color: #787a7a;
+	width: 20vh;
+	transition: 0.3s ease;
+	cursor: pointer;
+}
+
+.container-flued input:focus
+{
+	font-size: 2vh;
+	color: #000;
+	padding: 0.5vh;
+	border-radius: 5px;
+	border-width: 0px;
+	margin: 1vh;
+	background-color: #f0f0f0;
+	outline: 0;
+	margin-left: 0.5vh;
+	width: 25vh;
+	transition: 0.2s ease;
+}
+
+.container-flued span{
+	color: #f0f0f0;
+	margin-left:1vh;
+	font-size: 2.2vh;
+	cursor: pointer;
+}
+
+.container-flued span:hover{
+	color: #bac1cc;
+	margin-left:1vh;
+	cursor: pointer;
+}
+
+.container-flued span:active{
+	color: #5f8287;
+	margin-left:1vh;
+	cursor: pointer;
+}
+
+.empty{
+	height: 20%;
+	width: 40%;
+	left:30%;
+	top: 40%;
+	position: fixed;
+	background-color: #f0f0f0;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	transition: 0.1s ease;
+}
+
+.all_exercises{
+	font-size: 1.2vw;
+	border-radius: 10px;
+	height: auto;
+	width: 50%;
+	left:25%;
+	top: 13%;
+	position: absolute;
+	margin-bottom: 2%;
+	background-color: #f0f0f0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	transition: 0.1s ease;
+}
+
+.all_exercises span{
+	padding: 0.5vh;
+}
+
+.all_exercises div{
+	cursor: pointer;
+	display: flex;
+	position: relative;
+	height: auto;
+	width: 100%;
+}
+
+.all_exercises div:hover{
+	height: auto;
+	width: 100%;
+	background-color: red;
+}
+
+.sort_by_form{
+	position: fixed;
+	top:13%;
+	left: 5%;
+}
+
+.sort_by_form input{
+	font-size: 2vh;
+	padding: 2px;
+	margin:0.5vh;
+	margin-left: 0;
+	background-color: #f0f0f0;
+	border-radius: 3px;
+	border-width: 0px;
+	outline: 0;
+}
+
+.sort_by_form input:hover{
+	background-color: #bac1cc;
+}
+
+.sort_by_form input:active{
+	background-color: #5f8287;
+}
+
+#confirm_delete_button{
+	display:none;
+	opacity: 0.7;
+}
+
+#confirm_delete_button:hover{
+	background-color: red;
+	opacity: 0.7;
+}
