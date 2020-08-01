@@ -11,16 +11,21 @@ from flask_jwt_extended import (
     get_raw_jwt)
 from app import app, jwt, db
 import crud
+import os
+import psycopg2
 
 if __name__ == ' __main__':
     app.run()
 
 try:
     db.create_all()
+    db.session.commit()
 except:
     os.system("kill 1")
     os.system("echo 'ERROR: DB is not ready!!!'")
     raise SystemExit(1)
+
+
 
 @jwt.revoked_token_loader
 def token_revoked():

@@ -15,9 +15,9 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = os.getenv("SECRET_CSRF_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'mysql://root:' +
-    os.getenv("DB_PASSWORD") +
-    '@127.0.0.1:3306/shelper')
+    'postgresql://' + os.getenv("POSTGRES_USER") +
+    ':' + os.getenv("POSTGRES_PASSWORD") +
+    '@localhost:5432/' + os.getenv("POSTGRES_DB"))
 app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
