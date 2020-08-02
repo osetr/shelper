@@ -21,9 +21,13 @@ def AddUserToDataBase():
     login = request.form['name']
     email = request.form['email']
     hashed_password = pwd_context.hash(request.form['password'])
-    msg = Message("Subject", recipients=[email])
-    msg.body = "Mail body"
-    msg.html = "<p>Mail body</p>"
+    msg = Message("Welcome to SportHelper", recipients=[email])
+    msg.body = "Hello World"
+    msg.html = ("<p>Hello " + login + ". Don't worry, you will " +
+                "no longer receive new messages from us, we jus" +
+                "t wanted to inform you that we are very glad t" +
+                "hat you registered in our application and we h" +
+                "ope that you will like it=)</p>")
     mail.send(msg)
     db.session.add(User(id=str(uuid.uuid4()),
                         login=login,
@@ -161,6 +165,7 @@ def DeleteSelectedExercises():
         Exercises.query.filter_by(user_id=user_id,
                                   exercise_name=exercise).delete()
     db.session.commit()
+    return 0
 
 
 def SortExercises(exercises, by="type_muscle"):
@@ -182,6 +187,7 @@ def AddTokenToBlacklist():
     access_token = request.cookies.get('access_token_cookie')
     access_jti = get_jti(encoded_token=access_token)
     revoked_store.set(access_jti, 'false')
+    return 0
 
 
 def CheckIfTokenInBlacklist(decrypted_token):
