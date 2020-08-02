@@ -26,7 +26,6 @@ except:
     raise SystemExit(1)
 
 
-
 @jwt.revoked_token_loader
 def token_revoked():
     return redirect(url_for('index'))
