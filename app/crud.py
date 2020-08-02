@@ -1,5 +1,5 @@
 from model import User, Exercises, Trainings, Feedbacks
-from app import db, revoked_store, types_muscle
+from app import db, revoked_store, types_muscle, mail
 from passlib.context import CryptContext
 from flask import session, request
 from datetime import datetime, timedelta
@@ -8,6 +8,7 @@ from flask_jwt_extended import (
     create_access_token, create_refresh_token,
     get_jwt_identity, get_jti
 )
+from flask_mail import Message
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -20,6 +21,10 @@ def AddUserToDataBase():
     login = request.form['name']
     email = request.form['email']
     hashed_password = pwd_context.hash(request.form['password'])
+    msg = Message("Subject", recipients=[email])
+    msg.body = "Mail body"
+    msg.html = "<p>Mail body</p>"
+    mail.send(msg)
     db.session.add(User(id=str(uuid.uuid4()),
                         login=login,
                         email=email,
@@ -48,19 +53,20 @@ def AddTrainingToDataBase():
     if weight == "":
         weight = -1
     training_list = request.form['training_list']
-    exercises_list = splited_training_list = training_list.split()
+    exercises_list = splited_training_list = training_list.split('+')
     for exercise in exercises_list:
-        exercise_name = (exercise.split(":"))[0]
-        exercise_weight = (exercise.split(":"))[1]
-        if exercise_weight == "":
-            exercise_weight = 0
-        db.session.add(Trainings(training_id=training_id,
-                                 user_id=user_id,
-                                 comment=comment,
-                                 date=date,
-                                 weight=weight,
-                                 exercise_name=exercise_name,
-                                 exercise_weight=exercise_weight))
+        if not exercise == "":
+            exercise_name = (exercise.split(":"))[0]
+            exercise_weight = (exercise.split(":"))[1]
+            if exercise_weight == "":
+                exercise_weight = 0
+            db.session.add(Trainings(training_id=training_id,
+                                     user_id=user_id,
+                                     comment=comment,
+                                     date=date,
+                                     weight=weight,
+                                     exercise_name=exercise_name,
+                                     exercise_weight=exercise_weight))
         db.session.commit()
     return 0
 
@@ -149,7 +155,7 @@ def GetTrainingList():
 def DeleteSelectedExercises():
     user_id = get_jwt_identity()
     exercises_to_delete = request.form['exercise_list_to_deleting']
-    exercises = exercises_to_delete.split()
+    exercises = exercises_to_delete.split('+')
     print(exercises)
     for exercise in exercises:
         Exercises.query.filter_by(user_id=user_id,

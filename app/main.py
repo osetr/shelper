@@ -151,3 +151,14 @@ def refresh():
     response.set_cookie(key='access_token_cookie',
                         value=crud.GetAccessToken(id_already_authorized=True))
     return response
+
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return "Sorry, but it seems you entered a non-existent address", 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return ("Sorry, but it seems you entered an inappropriate data " +
+            "for the desired requestm, pls try one more time"), 500

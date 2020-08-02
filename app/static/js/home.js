@@ -245,7 +245,7 @@ function del(val)
   $("#inpex"+val).attr("value","");
   $("#inpwe"+val).attr("value","");
   var train = document.getElementById('all_exercises_during_training').value;
-  $("#all_exercises_during_training").attr("value",train.replace(arr_exe[val]+":"+arr_wei[val]+" ", ""));
+  $("#all_exercises_during_training").attr("value",train.replace(arr_exe[val]+":"+arr_wei[val]+"+", ""));
 }
 function fix_exercise_to_save()
 {
@@ -257,7 +257,7 @@ function fix_exercise_to_save()
   inp_id++;
   saved_id++;
   document.getElementById('fixing_field').innerHTML+=s;
-  document.getElementById('all_exercises_during_training').value+=arr_exe[saved_id-1] + ":" + arr_wei[saved_id-1] + " "
+  document.getElementById('all_exercises_during_training').value+=arr_exe[saved_id-1] + ":" + arr_wei[saved_id-1] + "+"
 }
 function fix_selected_exercise(val)
 {

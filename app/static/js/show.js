@@ -16,7 +16,7 @@ function delete_ex(val)
   $('#div_'+val).attr("style","display:none;");
   $('#span_'+val).attr("style","display:none;");
   $('#confirm_delete_button').attr("style","display:block");
-  document.getElementById('exercise_list_to_deleting').value+=document.getElementById('span_'+val).innerHTML+" "
+  document.getElementById('exercise_list_to_deleting').value+=document.getElementById('span_'+val).innerHTML+"+"
   exist[val]=0;
 }
 function turn_off_trainings()
