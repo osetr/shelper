@@ -11,7 +11,7 @@ It should be said that the front-end is not the strong point of this site. But o
 
 After cloning this repository locally, be sure to add yourself .env file with important keys inside current folder. In the following formats:
 
-
+```sh
 * SECRET_CSRF_KEY = 'secret'
 * JWT_SECRET_KEY = 'secret'
 * POSTGRES_USER = 'user'
@@ -19,6 +19,7 @@ After cloning this repository locally, be sure to add yourself .env file with im
 * POSTGRES_DB = 'database'
 * MAIL_USERNAME = 'sporthelper@gmail.com'
 * MAIL_PASSWORD = 'mailpassword'
+```
   
 Afterwards up docker-compose and check http://0.0.0.0/
 
